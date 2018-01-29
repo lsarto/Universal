@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header" />
+
+<body>
+
+	<div id="all">
+		<div th:replace="common/header :: navbar"></div>
+
+		<section>
+			<!-- *** HOMEPAGE CAROUSEL ***
+ _________________________________________________________ -->
+
+			<div class="home-carousel">
+
+				<div class="dark-mask"></div>
+
+				<div class="container">
+					<div class="homepage owl-carousel">
+						<div class="item">
+							<div class="row">
+								<div class="col-sm-5 right">
+									<h1>Benvenuto! Potrai scegliere tra un'ampia gamma di articoli </h1>
+									<p>
+										Fotocamere e Videocamere. <br />Telefonia.
+										<br />cuffie e auricolari.
+										<br />e molto altro ancora.
+									</p>
+								</div>
+								<div class="col-sm-7">
+									<img class="img-responsive" src="image/template-homepage.png"
+										alt="">
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="row">
+
+								<div class="col-sm-7 text-center">
+									<img class="img-responsive" src="image/template-mac.png" alt="">
+								</div>
+
+								<div class="col-sm-5">
+									<h2>46 HTML pages full of features</h2>
+									<ul class="list-style-none">
+										<li>Sliders and carousels</li>
+										<li>4 Header variations</li>
+										<li>Google maps, Forms, Megamenu, CSS3 Animations and
+											much more</li>
+										<li>+ 11 extra pages showing template features</li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+						<div class="item">
+							<div class="row">
+								<div class="col-sm-5 right">
+									<h1>Design</h1>
+									<ul class="list-style-none">
+										<li>Clean and elegant design</li>
+										<li>Full width and boxed mode</li>
+										<li>Easily readable Roboto font and awesome icons</li>
+										<li>7 preprepared colour variations</li>
+									</ul>
+								</div>
+								<div class="col-sm-7">
+									<img class="img-responsive"
+										src="image/template-easy-customize.png" alt="">
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="row">
+								<div class="col-sm-7">
+									<img class="img-responsive" src="image/template-easy-code.png"
+										alt="">
+								</div>
+								<div class="col-sm-5">
+									<h1>Easy to customize</h1>
+									<ul class="list-style-none">
+										<li>7 preprepared colour variations.</li>
+										<li>Easily to change fonts</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- /.project owl-slider -->
+				</div>
+			</div>
+
+			<!-- *** HOMEPAGE CAROUSEL END *** -->
+		</section>
+
+		<section class="bar background-white no-mb">
+			<div class="container" data-animate="fadeInUp">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="heading text-center">
+							<h3>Ultimi arrivi</h3>
+						</div>
+
+						<div class="row portfolio no-space">
+							<div th:each="product : ${productList}" class="col-sm-4">
+								<div class="box-image">
+									<div class="image">
+										<img th:src="#{adminPath}+@{/image/product/}+${product.id}+'-5.png'" alt="" class="img-responsive">
+									</div>
+									<div class="bg"></div>
+									<div class="name">
+										<h3>
+											<a th:text="${product.name}" th:href="@{/shop-detail?id=}+${product.id}"></a>
+										</h3>
+									</div>
+									<div class="text">
+										<p class="hidden-sm">Acquista prodotto</p>
+										<p class="buttons">
+											<a th:href="@{/shop-detail?id=}+${product.id}"
+												class="btn btn-template-transparent-primary">buy</a>
+										</p>
+									</div>
+								</div>
+								<!-- /.box-image -->
+
+							</div>
+						</div>
+
+						<div class="see-more">
+							<a th:href="@{/shop-category}" class="btn btn-template-main">Scopri di pi&ugrave;</a>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+		<section
+			class="bar background-image-fixed-2 no-mb color-white text-center">
+			<div class="dark-mask"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="text-uppercase">Vuoi scoprire di pi&ugrave;?</h3>
+						<p class="lead">Vai al Negozio e osserva le nostre offerte</p>
+						<p class="text-center">
+							<a th:href="@{/shop-category}"
+								class="btn btn-template-transparent-black btn-lg">Vai al Negozio!</a>
+						</p>
+					</div>
+
+				</div>
+			</div>
+		</section>
+
+
+		<!-- /.bar -->
+
+
+		<!-- /.bar -->
+
+		<section class="bar background-gray no-mb">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<ul class="owl-carousel customers">
+							<li class="item"><img src="image/customer-1.png" alt=""
+								class="img-responsive"></li>
+							<li class="item"><img src="image/customer-2.png" alt=""
+								class="img-responsive"></li>
+							<li class="item"><img src="image/customer-3.png" alt=""
+								class="img-responsive"></li>
+							<li class="item"><img src="image/customer-4.png" alt=""
+								class="img-responsive"></li>
+							<li class="item"><img src="image/customer-5.png" alt=""
+								class="img-responsive"></li>
+							<li class="item"><img src="image/customer-6.png" alt=""
+								class="img-responsive"></li>
+						</ul>
+						<!-- /.owl-carousel -->
+					</div>
+
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- *** FOOTER ***
+_________________________________________________________ -->
+
+        <div th:replace="common/footer :: footer">
+        </div>
+	<!-- *** FOOTER END *** -->
+
+
+	<!-- #### JAVASCRIPT FILES ### -->
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+</body>
+
+</html>

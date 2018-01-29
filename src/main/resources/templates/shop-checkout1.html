@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/header :: common-header" />
+<meta charset="ISO-8859-1">
+
+
+<body>
+
+
+	<div id="all">
+
+		<div th:replace="common/header :: navbar"></div>
+
+		<!-- *** LOGIN MODAL END *** -->
+
+		<div id="heading-breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-7">
+						<h1>Checkout</h1>
+					</div>
+					<div class="col-md-5">
+						<ul class="breadcrumb">
+							<li><a th:href="@{/}">Home</a></li>
+							<li>Checkout</li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9 clearfix">
+						<form th:action="@{/checkout}" method="post">
+							<div th:if="${missingRequiredField}">
+								<h5 class="alert alert-warning">I campi contrassegnati con
+									* sono obbligatori.</h5>
+							</div>
+
+							<!-- Address Starts -->
+							<div
+								class="panel panel-default collapse in coll-12 coll-13 coll-14"
+								id="address">
+								<div class="panel-body">
+									<div class="col-md-12 clearfix" id="checkout1">
+										<ul class="nav nav-pills nav-justified">
+											<li class="active"><a href="javascript:void(0);"><i
+													class="fa fa-map-marker"></i><br>Indirizzo</a></li>
+											<li class="disabled"><a href="javascript:void(0);"><i
+													class="fa fa-truck"></i><br>Metodo di spedizione</a></li>
+											<li class="disabled"><a href="javascript:void(0);"><i
+													class="glyphicon glyphicon-euro"></i><br>Metodo di
+													pagamento</a></li>
+											<li class="disabled"><a href="javascript:void(0);"><i
+													class="fa fa-eye"></i><br>Resoconto ordine</a></li>
+										</ul>
+										<div class="form-group">
+											<h4>Indirizzo di spedizione</h4>
+										</div>
+										<table class="table" th:if="${not emptyShippingList}">
+											<thead>
+												<tr>
+													<th>Indirizzi Disponibili</th>
+													<th>Operazioni</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="userShipping : ${userShippingList}">
+													<td
+														th:text="${userShipping.userShippingStreet1}+' '+${userShipping.userShippingStreet2}+', '+${userShipping.userShippingCity}
+												+', '+${userShipping.userShippingState}"></td>
+													<td><a
+														th:href="@{/setShippingAddress(userShippingId=${userShipping.id})}">usa
+															questo indirizzo</a></td>
+												</tr>
+											</tbody>
+										</table>
+										<div class="form-group">
+											<label for="shippingName">* Nome</label> <input type="text"
+												class="form-control" id="shippingName"
+												placeholder="Nome Ricevente" name="shippingAddressName"
+												required="required"
+												th:value="${shippingAddress.shippingAddressName}" />
+										</div>
+										<div class="form-group">
+											<label for="shippingAddress">* Indirizzo</label> <input
+												type="text" class="form-control" id="shippingAddress1"
+												placeholder="Indirizzo di Spedizione Linea 1"
+												name="shippingAddressStreet1" required="required"
+												th:value="${shippingAddress.shippingAddressStreet1}" />
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control" id="shippingAddress2"
+												placeholder="Indirizzo di Spedizione Linea 2"
+												name="shippingAddressStreet2"
+												th:value="${shippingAddress.shippingAddressStreet2}" />
+										</div>
+
+										<div class="row">
+											<div class="col-xs-4">
+												<div class="form-group">
+													<label for="shippingCity">* Citt&agrave;</label> <input
+														type="text" class="form-control" id="shippingCity"
+														placeholder="Citt&agrave; Spedizione"
+														name="shippingAddressCity" required="required"
+														th:value="${shippingAddress.shippingAddressCity}" />
+												</div>
+											</div>
+											<div class="col-xs-4">
+												<div class="form-group">
+													<label for="shippingState">* Provincia</label> <select
+														id="shippingState" class="form-control"
+														th:name="shippingAddressState"
+														th:value="${shippingAddress.shippingAddressState}"
+														required="required">
+														<option value="" disabled="disabled">Per favore
+															sleziona un'opzione</option>
+														<option th:each="state : ${stateList}" th:text="${state}"
+															th:selected="(${shippingAddress.shippingAddressState}==${state})"></option>
+													</select>
+												</div>
+											</div>
+											<div class="col-xs-4">
+												<div class="form-group">
+													<label for="shippingZipcode">* CAP</label> <input
+														type="text" class="form-control" id="shippingZipcode"
+														placeholder="CAP Ricevente"
+														th:name="shippingAddressZipcode" required="required"
+														th:value="${shippingAddress.shippingAddressZipcode}" />
+												</div>
+											</div>
+										</div>
+
+										<!-- Billing Address -->
+										<div class="form-group">
+											<h4>Indirizzo di fatturazione</h4>
+										</div>
+										<div class="checkbox">
+											<label> <input id="theSameAsShippingAddress"
+												type="checkbox" name="billingSameAsShipping" value="true" />
+												Usa lo stesso di quello di spedizione
+											</label>
+										</div>
+										<table class="table" th:if="${not emptyPaymentList}">
+											<thead>
+												<tr>
+													<th>Indirizzi Disponibili</th>
+													<th>Operazioni</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="userPayment : ${userPaymentList}">
+													<td th:text="${userPayment.userBilling.userBillingName}"></td>
+													<td><a
+														th:href="@{/setPaymentMethod(userPaymentId=${userPayment.id})}">usa
+															questo indirizzo</a></td>
+												</tr>
+											</tbody>
+										</table>
+
+										<div class="form-group">
+											<label for="billingName">* Nome</label> <input type="text"
+												class="form-control billingAddress" id="billingName"
+												placeholder="Nome di chi effettua la fattura"
+												th:name="billingAddressName" required="required"
+												th:value="${billingAddress.billingAddressName}" />
+										</div>
+										<div class="form-group">
+											<label for="billingAddress">* Indirizzo</label> <input
+												type="text" class="form-control billingAddress"
+												id="billingAddress1" placeholder="Indirizzo Fatturazione Linea 1"
+												th:name="billingAddressStreet1" required="required"
+												th:value="${billingAddress.billingAddressStreet1}" />
+										</div>
+										<div class="form-group">
+											<input type="text" class="form-control billingAddress"
+												id="billingAddress2"
+												placeholder="Indirizzo Fatturazione Linea 2"
+												th:name="billingAddressStreet2"
+												th:value="${billingAddress.billingAddressStreet2}" />
+										</div>
+
+										<div class="row">
+											<div class="col-xs-4">
+												<div class="form-group">
+													<label for="billingCity">* Citt&agrave;</label> <input
+														type="text" class="form-control billingAddress"
+														id="billingCity" placeholder="Citt&agrave; Fatturazione"
+														th:name="billingAddressCity" required="required"
+														th:value="${billingAddress.billingAddressCity}" />
+												</div>
+											</div>
+											<div class="col-xs-4">
+												<div class="form-group">
+													<label for="billingState">* Provincia</label> <select
+														id="billingState" class="form-control billingAddress"
+														th:name="billingAddressState"
+														th:value="${billingAddress.billingAddressState}"
+														required="required">
+														<option value="" disabled="disabled">Per favore
+															seleziona un'opzione</option>
+														<option th:each="state : ${stateList}" th:text="${state}"
+															th:selected="(${billingAddress.billingAddressState}==${state})"></option>
+													</select>
+												</div>
+											</div>
+											<div class="col-xs-4">
+												<div class="form-group">
+													<label for="billingZipcode">* CAP</label> <input
+														type="text" class="form-control billingAddress"
+														id="billingZipcode" placeholder="CAP Fatturazione"
+														th:name="billingAddressZipcode" required="required"
+														th:value="${billingAddress.billingAddressZipcode}" />
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<!-- /.content -->
+									<div class="box-footer">
+										<div class="pull-left">
+											<a th:href="@{/shoppingCart/cart/}" class="btn btn-default">
+												<i class="fa fa-chevron-left"></i>Torna al Carrello
+											</a>
+										</div>
+										<div class="pull-right">
+											<a class="btn btn-template-main" type="button"
+												data-toggle="collapse" data-target=".coll-12" href="#">
+												Vai al metodo di Consegna<i class="fa fa-chevron-right"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.box -->
+							<!-- Address Ends -->
+
+							<!-- Delivery Method Starts -->
+							<div class="panel panel-default collapse coll-12 coll-23 coll-24"
+								id="deliveryMethod">
+								<div class="panel-body">
+									<div class="col-md-12 clearfix" id="checkout2">
+										<ul class="nav nav-pills nav-justified">
+											<li class=""><a href="javascript:void(0);"
+												data-toggle="collapse" data-target=".coll-12"><i
+													class="fa fa-map-marker"></i><br>Indirizzo</a></li>
+											<li class="active"><a href="javascript:void(0);"><i
+													class="fa fa-truck"></i><br>Metodo di spedizione</a></li>
+											<li class="disabled"><a href="javascript:void(0);"><i
+													class="glyphicon glyphicon-euro"></i><br>Metodo di
+													pagamento</a></li>
+											<li class="disabled"><a href="#"><i
+													class="fa fa-eye"></i><br>Resoconto ordine</a></li>
+										</ul>
+
+										<div class="content">
+											<div class="row">
+												<div class="col-sm-6">
+													<div class="box shipping-method">
+
+														<h4>Ground Shipping</h4>
+
+														<p>Consegna entro 5 giorni.</p>
+
+														<div class="box-footer text-center">
+															<input type="radio" name="shippingMethod"
+																value="groundShipping" checked="checked" />
+														</div>
+													</div>
+												</div>
+												<div class="col-sm-6">
+													<div class="box shipping-method">
+
+														<h4>Premium Shipping</h4>
+
+														<p>Consegna entro 3 giorni.</p>
+
+														<div class="box-footer text-center">
+															<input type="radio" name="shippingMethod"
+																value="premiumShipping" />
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- /.row -->
+
+										</div>
+										<!-- /.content -->
+										<div class="box-footer">
+											<div class="pull-left">
+												<a class="btn btn-default" type="button"
+													data-toggle="collapse" data-target=".coll-12"
+													href="javascript:void(0);"> <i
+													class="fa fa-chevron-left"></i>Torna agli Indirizzi
+												</a>
+											</div>
+											<div class="pull-right">
+												<a class="btn btn-template-main" type="button"
+													data-toggle="collapse" data-target=".coll-23"
+													href="javascript:void(0);"> Vai al Metodo di Pagamento<i
+													class="fa fa-chevron-right"></i>
+												</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.box -->
+							<!-- Delivery Method Ends -->
+
+							<!-- Payment Method Starts -->
+							<div class="panel panel-default collapse coll-13 coll-23 coll-34"
+								id="paymentMethod">
+								<div class="panel-body">
+									<ul class="nav nav-pills nav-justified">
+										<li class=""><a href="javascript:void(0);"
+											data-toggle="collapse" data-target=".coll-13"><i
+												class="fa fa-map-marker"></i><br>Indirizzo</a></li>
+										<li class=""><a href="javascript:void(0);"
+											data-toggle="collapse" data-target=".coll-23"><i
+												class="fa fa-truck"></i><br>Metodo di spedizione</a></li>
+										<li class="active"><a href="javascript:void(0);"><i
+												class="glyphicon glyphicon-euro"></i><br>Metodo di
+												pagamento</a></li>
+										<li class="disabled"><a href="#"><i class="fa fa-eye"></i><br>Resoconto
+												Ordine</a></li>
+									</ul>
+
+									<div class="content">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="box payment-method">
+
+													<h4>Paypal</h4>
+
+													<p>Effettua un versamento sicuro attraverso PayPal.</p>
+
+													<div class="box-footer text-center">
+
+														<input type="radio" name="payment" value="payment1"
+															checked="checked">
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- /.row -->
+
+									</div>
+									<!-- /.content -->
+									<div class="box-footer">
+										<div class="pull-left">
+											<a class="btn btn-default" type="button"
+												data-toggle="collapse" data-target=".coll-23"
+												href="javascript:void(0);"> <i
+												class="fa fa-chevron-left"></i>Torna al Metodo di Spedizione
+											</a>
+										</div>
+										<div class="pull-right">
+											<a class="btn btn-template-main" type="button"
+												data-toggle="collapse" data-target=".coll-34"
+												href="javascript:void(0);"> Vai al Resoconto dell'Ordine<i
+												class="fa fa-chevron-right"></i>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.box -->
+							<!-- Payment Method Ends -->
+
+							<!-- Order Review Start-->
+							<div class="panel panel-default collapse coll-14 coll-24 coll-34"
+								id="orderReview">
+								<div class="col-md-12 clearfix" id="basket">
+									<ul class="nav nav-pills nav-justified">
+										<li class=""><a href="javascript:void(0);"
+											data-toggle="collapse" data-target=".coll-14"><i
+												class="fa fa-map-marker"></i><br>Indirizzo</a></li>
+										<li class=""><a href="javascript:void(0);"
+											data-toggle="collapse" data-target=".coll-24"><i
+												class="fa fa-truck"></i><br>Metodo di spedizione</a></li>
+										<li class=""><a href="javascript:void(0);"
+											data-toggle="collapse" data-target=".coll-34"><i
+												class="glyphicon glyphicon-euro"></i><br>Metodo di
+												pagamento</a></li>
+										<li class="active"><a href="javascript:void(0);"><i
+												class="fa fa-eye"></i><br>Resoconto Ordine</a></li>
+									</ul>
+									<div class="table-responsive">
+										<table class="table">
+											<thead>
+												<tr>
+													<th colspan="2">Prodotto</th>
+													<th>Quantità </th>
+													<th>Prezzo Listino</th>
+													<th>Prezzo Scontato</th>
+													<th colspan="2">Totale</th>
+												</tr>
+											</thead>
+											<tbody th:each="cartItem : ${cartItemList}">
+												<tr>
+													<td><a
+														th:href="@{shop-detail(id=${cartItem.product.id})}"> <img
+															th:src="#{adminPath}+@{/image/product/}+
+														${cartItem.product.id}+'-1.png'">
+													</a></td>
+													<td><a
+														th:href="@{/shop-detail?id=}+${cartItem.product.id}"><span
+															th:text="${cartItem.product.name}"></span></a></td>
+													<td><input type="number" class="form-control"
+														th:id="${cartItem.id}" th:name="qty" th:disabled="true"
+														th:value="${cartItem.qty}" /></td>
+													<td><span th:text="${#numbers.formatDecimal(cartItem.product.listPrice, 1 ,2)}"></span> €</td>
+													<td><span th:text="${#numbers.formatDecimal(cartItem.product.ourPrice, 1 ,2)}"></span> €</td>
+													<td><span
+														th:text="${#numbers.formatDecimal(cartItem.qty * cartItem.product.ourPrice, 1 ,2)}"></span> €</td>
+												</tr>
+											</tbody>
+
+											<tfoot>
+												<tr>
+													<th colspan="5">Totale</th>
+													<th colspan="2"><span
+														th:text="${#numbers.formatDecimal(shoppingCart.grandTotal, 1 ,2)}"></span> €</th>
+												</tr>
+											</tfoot>
+
+										</table>
+									</div>
+									<!-- /.content -->
+									<div class="pull-left">
+										<a class="btn btn-default" type="button"
+											data-toggle="collapse" data-target=".coll-34"
+											href="javascript:void(0);"> <i class="fa fa-chevron-left"></i>Torna
+											al Metodo di Pagamento
+										</a>
+									</div>
+									<div class="pull-right form-group">
+										<div id="paypal-button-container"></div>
+										<!-- <button type="submit" class="btn btn-template-main">
+											Effettua Ordine<i class="fa fa-chevron-right"></i>
+										</button> -->
+									</div>
+								</div>
+							</div>
+							<!-- /.box -->
+							<!-- Order Review Ends -->
+						</form>
+					</div>
+					<!-- /.col-md-9 -->
+
+
+					<div class="col-md-3">
+
+						<!-- <div th:replace="common/orderSummary :: orderSummary"></div>  -->
+
+					</div>
+					<!-- /.col-md-3 -->
+					<div class="col-md-3">
+
+						<div th:replace="common/orderSummary :: orderSummary"></div>
+
+					</div>
+				</div>
+				<!-- /.row -->
+
+			</div>
+			<!-- /.container -->
+		</div>
+		<!-- /#content -->
+
+
+		<!-- *** FOOTER ***
+_________________________________________________________ -->
+
+		<div th:replace="common/footer :: footer"></div>
+		<!-- *** FOOTER END *** -->
+
+	</div>
+	<!-- /#all -->
+
+	<!-- #### JAVASCRIPT FILES ### -->
+	<div th:replace="common/header :: body-bottom-scripts"></div>
+	<script th:inline="javascript">
+	paypal.Button.render({
+
+	    env: 'sandbox', // sandbox | production
+
+	    // Show the buyer a 'Pay Now' button in the checkout flow
+	    commit: true,
+
+	    // payment() is called when the button is clicked
+	    payment: function() {
+
+	        // Set up a url on your server to create the payment
+	        var CREATE_URL = 'http://localhost:8080/paymentWithPaypal/';
+
+	        /*<![CDATA[*/
+	        	var shippingAddress = JSON.stringify([[${shippingAddress}]]).replace(new RegExp('null', 'g'), '""');
+	        	var billingAddress = JSON.stringify([[${billingAddress}]]).replace(new RegExp('null', 'g'), '""');
+	        /*]]>*/
+
+	        var shippingMethod = JSON.stringify(document.querySelector('input[name="shippingMethod"]:checked').value);
+			
+	        var jsonShippingAddress = JSON.parse(shippingAddress);
+			jsonShippingAddress["shippingAddressName"] = document.getElementById("shippingName").value;
+			jsonShippingAddress["shippingAddressStreet1"] = document.getElementById("shippingAddress1").value;
+			jsonShippingAddress["shippingAddressStreet2"] = document.getElementById("shippingAddress2").value;
+			jsonShippingAddress["shippingAddressCity"] = document.getElementById("shippingCity").value;
+			jsonShippingAddress["shippingAddressState"] = document.getElementById("shippingState").value;
+			jsonShippingAddress["shippingAddressZipcode"] = document.getElementById("shippingZipcode").value;
+			jsonShippingAddress["shippingAddressCountry"] = "IT";
+			shippingAddress = JSON.stringify(jsonShippingAddress);
+			
+			var jsonShippingAddress = JSON.parse(billingAddress);
+			jsonShippingAddress["billingAddressName"] = document.getElementById("billingName").value;
+			jsonShippingAddress["billingAddressStreet1"] = document.getElementById("billingAddress1").value;
+			jsonShippingAddress["billingAddressStreet2"] = document.getElementById("billingAddress2").value;
+			jsonShippingAddress["billingAddressCity"] = document.getElementById("billingCity").value;
+			jsonShippingAddress["billingAddressState"] = document.getElementById("billingState").value;
+			jsonShippingAddress["billingAddressZipcode"] = document.getElementById("billingZipcode").value;
+			jsonShippingAddress["billingAddressCountry"] = "IT";
+			billingAddress = JSON.stringify(jsonShippingAddress);
+
+			var billingSameAsShipping = JSON.stringify(document.getElementById("theSameAsShippingAddress").checked);
+	        var data = {
+	        		shippingAddress: shippingAddress,
+	        		billingAddress: billingAddress,
+	        		billingSameAsShipping: billingSameAsShipping,
+	        		shippingMethod: shippingMethod
+	        }
+	        
+	        return paypal.request.post(CREATE_URL, data)
+            .then(function(res) {
+            	if(res.missField=='true'){
+            		window.location.replace("http://localhost:8080"+res.errPath);
+            	}
+            	if(res.emptyCart=='true'){
+            		window.location.replace("http://localhost:8080"+res.errPath);
+            	}
+                return res.paymentID;
+            });
+
+	    },
+
+	    // onAuthorize() is called when the buyer approves the payment
+	    onAuthorize: function(data, actions) {
+	    	function post(path, params, method) {
+	    	    method = method || "post"; // Set method to post by default if not specified.
+
+	    	    // The rest of this code assumes you are not using a library.
+	    	    // It can be made less wordy if you use one.
+	    	    var form = document.createElement("form");
+	    	    form.setAttribute("method", method);
+	    	    form.setAttribute("action", path);
+
+	    	    for(var key in params) {
+	    	        if(params.hasOwnProperty(key)) {
+	    	            var hiddenField = document.createElement("input");
+	    	            hiddenField.setAttribute("type", "hidden");
+	    	            hiddenField.setAttribute("name", key);
+	    	            hiddenField.setAttribute("value", params[key]);
+
+	    	            form.appendChild(hiddenField);
+	    	        }
+	    	    }
+
+	    	    document.body.appendChild(form);
+	    	    form.submit();
+	    	}
+
+	        // Set up a url on your server to execute the payment
+	        var EXECUTE_URL = 'http://localhost:8080/paymentWithPaypal/';
+
+	        // Set up the data you need to pass to your server
+	        var data = {
+	            paymentID: data.paymentID,
+	            payerID: data.payerID
+	        };
+
+	        // Make a call to your server to execute the payment
+	        return paypal.request.post(EXECUTE_URL, data)
+	            .then(function (res) {
+	  //          	window.alert("pagamento completato");
+
+					var url = 'http://localhost:8080/orderSubmittedPage/';
+					post(url, {cartItemList: JSON.stringify(res.cartItemList), estimatedDeliveryDate: JSON.stringify(res.estimatedDeliveryDate)});
+	            });
+	    }
+
+	}, '#paypal-button-container');
+	</script>
+
+</body>
+
+</html>

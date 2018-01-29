@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+<!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+
+<link href="/css/non-responsive.css" rel="stylesheet" />
+
+<link href="/css/font-awesome.min.css" rel="stylesheet" />
+
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<meta charset="UTF-8">
+
+<style>
+table {
+	border-collapse: collapse;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+</style>
+</head>
+<body>
+	<!-- <p>Dear <span th:text="${user.firstName}"></span>,</p> -->
+	<br />
+	<p>Grazie per aver acquistato dal nostro sito!</p>
+	<p>
+		Il tuo ordine ha codice: <strong>#<span th:text="${order.id}"></span></strong>.
+		Di seguito sono riportati i dettagli dell'ordine:
+	</p>
+	<h2>
+		Dettagli per l'ordine #<span th:text="${order.id}"></span>
+	</h2>
+	<hr />
+
+	<table>
+		<tr>
+			<th>Dettagli Fatturazione</th>
+			<th>Indirizzo di spedizione</th>
+		</tr>
+		<tr>
+			<td><span th:text="${order.billingAddress.billingAddressName}"></span><br />
+				<span th:text="${order.billingAddress.billingAddressStreet1}"></span><span
+				th:if="${order.billingAddress.billingAddressStreet2}!=null"
+				th:text="', '+${order.billingAddress.billingAddressStreet2}"></span><br />
+				<span th:text="${order.billingAddress.billingAddressCity}"></span><br />
+				<span th:text="${order.billingAddress.billingAddressState}"></span><br />
+				<span th:text="${order.billingAddress.billingAddressZipcode}"></span><br />
+			</td>
+			<td><span th:text="${order.shippingAddress.shippingAddressName}"></span><br />
+				<span th:text="${order.shippingAddress.shippingAddressStreet1}"></span><span
+				th:if="${order.shippingAddress.shippingAddressStreet2}!=null"
+				th:text="', '+${order.shippingAddress.shippingAddressStreet2}"></span><br />
+				<span th:text="${order.shippingAddress.shippingAddressCity}"></span><br />
+				<span th:text="${order.shippingAddress.shippingAddressState}"></span><br />
+				<span th:text="${order.shippingAddress.shippingAddressZipcode}"></span><br />
+			</td>
+		</tr>
+	</table>
+
+	<h3>
+		<strong>Sommario dell'ordine</strong>
+	</h3>
+	<table>
+		<thead>
+			<tr>
+				<td><strong>Nome prodotto</strong></td>
+				<td class="text-center"><strong>Prezzo</strong></td>
+				<td class="text-center"><strong>Quantit&agrave</strong></td>
+				<td class="text-right"><strong>Totale</strong></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="cartItem : ${cartItemList}">
+				<td><span data-th-text="${cartItem.product.name}"></span></td>
+				<td class="text-center"
+					data-th-text="${#numbers.formatDecimal(cartItem.product.ourPrice, 1, 2)}+' €'"></td>
+				<td class="text-center" data-th-text="${cartItem.qty}"></td>
+				<td class="text-right" data-th-text="${#numbers.formatDecimal(cartItem.subtotal, 1, 2)}+' €'"></td>
+			</tr>
+			<tr>
+				<td class="highrow"></td>
+				<td class="highrow"></td>
+				<td class="highrow text-center"><strong>Subtotale</strong></td>
+				<td class="highrow text-right" data-th-text="${#numbers.formatDecimal(order.orderTotal, 1, 2)}+' €'"></td>
+			</tr>
+			<tr>
+				<td class="emptyrow"></td>
+				<td class="emptyrow"></td>
+				<td class="emptyrow text-center"><strong>Tassa</strong></td>
+				<td class="emptyrow text-right"
+					data-th-text="${#numbers.formatDecimal(order.orderTotal*0.06,1,2)}+' €'"></td>
+			</tr>
+			<tr>
+				<td class="emptyrow"></td>
+				<td class="emptyrow"></td>
+				<td class="emptyrow text-center"><strong>Spedizione</strong></td>
+				<td class="emptyrow text-right" th:if="${order.shippingMethod}=='groundShipping'"
+					data-th-text="${#numbers.formatDecimal(3,1,2)}+' €'"></td>
+				<td class="emptyrow text-right" th:if="${order.shippingMethod}=='premiumShipping'"
+					data-th-text="${#numbers.formatDecimal(5,1,2)}+' €'"></td>
+			</tr>
+			<tr>
+				<td class="emptyrow"><i class="fa fa-barcode iconbig"></i></td>
+				<td class="emptyrow"></td>
+				<td class="emptyrow text-center"><strong>Totale</strong></td>
+				<td th:if="${order.shippingMethod}=='groundShipping'"
+					th:with="total=${order.orderTotal+order.orderTotal*0.06+3}"
+					data-th-text="${#numbers.formatDecimal(total, 0, 2)}+' €'"
+					class="emptyrow text-right"></td>
+				<td th:if="${order.shippingMethod}=='premiumShipping'"
+					th:with="total=${order.orderTotal+order.orderTotal*0.06+5}"
+					data-th-text="${#numbers.formatDecimal(total, 0, 2)}+' €'"
+					class="emptyrow text-right"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<br />
+	<p></p>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+	xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head th:replace="common/header :: common-header" />
+
+<body>
+	<div th:fragment="menus&filters">
+		<div class="panel panel-default sidebar-menu">
+
+			<div class="panel-heading">
+				<h3 class="panel-title">Filtra</h3>
+			</div>
+
+			<div class="panel-body">
+				<ul th:each="type: ${session.types}"
+					class="nav nav-pills nav-stacked category-menu">
+					<li class="active"><a href="#" th:text="${type.name}"></a>
+						<ul>
+							<li th:classappend="${activeCategory}=='all'+${type.id}? 'active btn-default'" 
+								th:id="'all'+${type.id}+'-list-item'"><a
+								th:href="@{/searchByCategory(category='all'+${type.id})}" 
+								class="category-ajax" 
+								th:id="'all'+${type.id}">All</a></li>
+							<li th:each="category: ${type.categories}" th:id="${category.id}+'-category-list-item'"
+								th:classappend="(${activeCategory}==${category.id})? 'active btn-default'">
+								<a th:href="@{/searchByCategory(category=${category.id})}"
+								class="category-ajax"
+								th:id="${category.id}+'-category'"
+								th:inline="text">[[${category.name}]] <span
+									class="badge pull-right" th:text="${category.qty}"></span></a>
+							</li>
+						</ul></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
