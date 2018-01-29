@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+<head th:replace="common/header :: common-header-admin" />
+
+<body>
+	<div th:replace="common/header-admin :: navbar" />
+	
+	<div class="container">
+		<div>
+			<ol class="breadcrumb">
+				<li><a th:href="@{/product/productList}"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>Indietro</a></li>
+				<li><a th:href="@{/product/updateProduct?id=}+${product.id}">Modifica</a></li>
+			</ol>
+			
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-3">
+				<div class="panel panel-default">
+				<div class="panel-body">
+					<img th:src="@{/image/product/}+${product.id}+'-1.png'" class="img-responsive center-block" />
+				</div>
+				</div>
+			</div>
+			<div class="col-xs-9">
+				<h3 th:text="${product.name}"></h3>
+				<div class="row">
+					<div class="col-xs-6">
+						<p><strong>Nome: </strong><span th:text="${product.name}"></span></p>
+						<p><strong>Tipo: </strong><span th:text="${product.type.name}"></span></p>
+						<p><strong>Categoria: </strong><span th:text="${product.category.name}"></span></p>
+						<p th:each="attribute: ${product.productAttributes}"><strong>Nome Attributo: </strong><span th:text="${attribute.name}"></span>
+						<strong>; Valore Attributo: </strong><span th:utext="${attribute.value}"></span></p>
+					</div>
+					<div class="col-xs-6">
+						<p><strong>Peso di spedzione: </strong><span th:text="${product.shippingWeight}"></span></p>
+						<p><strong>Prezzo di listino: </strong><span th:text="${product.listPrice}"></span></p>
+						<p><strong>Nostro prezzo: </strong><span th:text="${product.ourPrice}"></span></p>
+						<p><strong>SKU: </strong><span th:text="${product.inStockNumber}"></span></p>
+						<p><strong>Sale: </strong><span th:text="${product.sale}"></span></p>
+						<p><strong>New: </strong><span th:text="${product.newProduct}"></span></p>
+						<p><strong>Active: </strong><span th:text="${product.active}"></span></p>
+					</div>
+				</div>
+				<p><Strong>Descrizione: </Strong><span th:utext="${product.description}"></span></p>
+			</div>
+			
+		</div>
+	</div>
+
+	<div th:replace="common/header :: body-bottom-scripts" />
+</body>
+</html>
