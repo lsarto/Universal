@@ -2,6 +2,10 @@ package com.popeyestore.adminportal.domain;
 
 import java.util.List;
 
+import com.popeyestore.domain.Category;
+import com.popeyestore.domain.Product;
+import com.popeyestore.domain.ProductAttribute;
+
 
 public class DataTransfer {
 

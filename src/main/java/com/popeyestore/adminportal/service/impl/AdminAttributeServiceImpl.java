@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.popeyestore.adminportal.domain.Product;
-import com.popeyestore.adminportal.domain.ProductAttribute;
 import com.popeyestore.adminportal.repository.ProductAttributeRepository;
-import com.popeyestore.adminportal.service.AttributeService;
+import com.popeyestore.adminportal.service.AdminAttributeService;
+import com.popeyestore.domain.Product;
+import com.popeyestore.domain.ProductAttribute;
 
 @Service
-public class AttributeServiceImpl implements AttributeService{
+public class AdminAttributeServiceImpl implements AdminAttributeService{
 	@Autowired
 	private ProductAttributeRepository attributeRepository;
 	

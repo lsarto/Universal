@@ -2,11 +2,13 @@ package com.popeyestore.adminportal.service;
 
 import java.util.List;
 
-import com.popeyestore.adminportal.domain.Category;
-import com.popeyestore.adminportal.domain.Type;
+import com.popeyestore.domain.Category;
+import com.popeyestore.domain.Type;
 
 
-public interface TypeService {
+
+
+public interface AdminTypeService {
 	
 	List<Type> findAll();
 	

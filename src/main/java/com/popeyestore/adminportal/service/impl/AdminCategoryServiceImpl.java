@@ -7,17 +7,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.popeyestore.adminportal.domain.Category;
-import com.popeyestore.adminportal.domain.Type;
-import com.popeyestore.adminportal.repository.CategoryRepository;
-import com.popeyestore.adminportal.service.CategoryService;
-import com.popeyestore.adminportal.service.UserService;
+
+import com.popeyestore.adminportal.service.AdminCategoryService;
+import com.popeyestore.adminportal.service.AdminUserService;
+import com.popeyestore.domain.Category;
+import com.popeyestore.domain.Type;
+import com.popeyestore.repository.CategoryRepository;
 
 
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
-	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+public class AdminCategoryServiceImpl implements AdminCategoryService{
+	private static final Logger LOG = LoggerFactory.getLogger(AdminUserService.class);
 
 	@Autowired
 	private CategoryRepository categoryRepository;

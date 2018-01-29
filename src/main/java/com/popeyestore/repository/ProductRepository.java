@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.popeyestore.domain.Category;
 import com.popeyestore.domain.Product;
 import com.popeyestore.domain.Type;
 
@@ -14,5 +15,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	List<Product> findByType(Type type);
 	
 	List<Product> findByLatestTrue();
+	
+	List<Product> findByCategory(Category category);
 	
 }

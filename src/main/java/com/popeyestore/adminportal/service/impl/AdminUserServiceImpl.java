@@ -7,16 +7,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.popeyestore.adminportal.domain.User;
-import com.popeyestore.adminportal.domain.security.UserRole;
-import com.popeyestore.adminportal.repository.RoleRepository;
-import com.popeyestore.adminportal.repository.UserRepository;
-import com.popeyestore.adminportal.service.UserService;
+import com.popeyestore.adminportal.service.AdminUserService;
+import com.popeyestore.domain.User;
+import com.popeyestore.domain.security.UserRole;
+import com.popeyestore.repository.RoleRepository;
+import com.popeyestore.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class AdminUserServiceImpl implements AdminUserService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AdminUserService.class);
 	
 	@Autowired
 	private UserRepository userRepository;

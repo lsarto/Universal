@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.popeyestore.adminportal.domain.Category;
-import com.popeyestore.adminportal.domain.Product;
-import com.popeyestore.adminportal.service.CategoryService;
-import com.popeyestore.adminportal.service.ProductService;
+
+import com.popeyestore.adminportal.service.AdminCategoryService;
+import com.popeyestore.adminportal.service.AdminProductService;
+import com.popeyestore.domain.Category;
+import com.popeyestore.domain.Product;
 
 
 @RestController
@@ -21,9 +22,9 @@ import com.popeyestore.adminportal.service.ProductService;
 public class ResourceController {
 
 	@Autowired
-	private ProductService productService;
+	private AdminProductService productService;
 	@Autowired
-	private CategoryService categoryService;
+	private AdminCategoryService categoryService;
 	
 	@RequestMapping(value="/product/removeList", method=RequestMethod.POST)
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

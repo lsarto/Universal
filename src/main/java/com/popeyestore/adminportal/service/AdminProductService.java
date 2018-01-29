@@ -2,11 +2,13 @@ package com.popeyestore.adminportal.service;
 
 import java.util.List;
 
-import com.popeyestore.adminportal.domain.Category;
-import com.popeyestore.adminportal.domain.Product;
+import com.popeyestore.domain.Category;
+import com.popeyestore.domain.Product;
 
 
-public interface ProductService {
+
+
+public interface AdminProductService {
 	
 	Product save(Product product);
 

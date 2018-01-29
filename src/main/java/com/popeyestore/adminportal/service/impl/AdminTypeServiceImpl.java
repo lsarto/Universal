@@ -8,24 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.popeyestore.adminportal.domain.Category;
-import com.popeyestore.adminportal.domain.Type;
-import com.popeyestore.adminportal.repository.TypeRepository;
-import com.popeyestore.adminportal.service.CategoryService;
-import com.popeyestore.adminportal.service.TypeService;
-import com.popeyestore.adminportal.service.UserService;
+
+import com.popeyestore.adminportal.service.AdminCategoryService;
+import com.popeyestore.adminportal.service.AdminTypeService;
+import com.popeyestore.adminportal.service.AdminUserService;
+import com.popeyestore.domain.Category;
+import com.popeyestore.domain.Type;
+import com.popeyestore.repository.TypeRepository;
 
 
 
 @Service
-public class TypeServiceImpl implements TypeService{
-	private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+public class AdminTypeServiceImpl implements AdminTypeService{
+	private static final Logger LOG = LoggerFactory.getLogger(AdminUserService.class);
 
 	@Autowired
 	private TypeRepository typeRepository;
 	
 	@Autowired
-	private CategoryService categoryService;
+	private AdminCategoryService categoryService;
 
 	@Override
 	public List<Type> findAll() {

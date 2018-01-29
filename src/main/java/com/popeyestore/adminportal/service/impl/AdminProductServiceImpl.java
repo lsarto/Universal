@@ -5,13 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.popeyestore.adminportal.domain.Category;
-import com.popeyestore.adminportal.domain.Product;
-import com.popeyestore.adminportal.repository.ProductRepository;
-import com.popeyestore.adminportal.service.ProductService;
+
+import com.popeyestore.adminportal.service.AdminProductService;
+import com.popeyestore.domain.Category;
+import com.popeyestore.domain.Product;
+import com.popeyestore.repository.ProductRepository;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class AdminProductServiceImpl implements AdminProductService{
 	
 	@Autowired
 	private ProductRepository productRepository;

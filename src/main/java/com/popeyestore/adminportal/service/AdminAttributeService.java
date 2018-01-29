@@ -2,10 +2,11 @@ package com.popeyestore.adminportal.service;
 
 import java.util.List;
 
-import com.popeyestore.adminportal.domain.Product;
-import com.popeyestore.adminportal.domain.ProductAttribute;
+import com.popeyestore.domain.Product;
+import com.popeyestore.domain.ProductAttribute;
 
-public interface AttributeService {
+
+public interface AdminAttributeService {
 
 	ProductAttribute save(ProductAttribute productAttribute);
 

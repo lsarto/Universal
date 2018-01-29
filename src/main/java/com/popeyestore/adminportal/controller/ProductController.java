@@ -25,16 +25,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.popeyestore.adminportal.domain.Category;
 import com.popeyestore.adminportal.domain.DataTransfer;
-import com.popeyestore.adminportal.domain.Product;
-import com.popeyestore.adminportal.domain.ProductAttribute;
-import com.popeyestore.adminportal.domain.Type;
-import com.popeyestore.adminportal.service.AttributeService;
-import com.popeyestore.adminportal.service.CategoryService;
-import com.popeyestore.adminportal.service.ProductService;
-import com.popeyestore.adminportal.service.TypeService;
+import com.popeyestore.adminportal.service.AdminAttributeService;
+import com.popeyestore.adminportal.service.AdminCategoryService;
+import com.popeyestore.adminportal.service.AdminProductService;
+import com.popeyestore.adminportal.service.AdminTypeService;
 import com.popeyestore.adminportal.utility.ImageUtility;
+import com.popeyestore.domain.Category;
+import com.popeyestore.domain.Product;
+import com.popeyestore.domain.ProductAttribute;
+import com.popeyestore.domain.Type;
 
 @Controller
 @RequestMapping("/adminportal/product")
@@ -44,13 +44,13 @@ public class ProductController {
 	private final int IMAGE_WIDTH = 1000;
 	private final int IMAGE_HEIGHT = 1000;
 	@Autowired
-	private CategoryService categoryService;
+	private AdminCategoryService categoryService;
 	@Autowired
-	private ProductService productService;
+	private AdminProductService productService;
 	@Autowired
-	private TypeService typeService;
+	private AdminTypeService typeService;
 	@Autowired
-	private AttributeService attributeService;
+	private AdminAttributeService attributeService;
 
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

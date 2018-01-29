@@ -10,14 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.popeyestore.adminportal.domain.Type;
-import com.popeyestore.adminportal.service.TypeService;
+import com.popeyestore.adminportal.service.AdminTypeService;
+import com.popeyestore.domain.Type;
 
 @Controller
 @RequestMapping("/adminportal")
-public class HomeController {
+public class AdminHomeController {
 	@Autowired
-	private TypeService typeService;
+	private AdminTypeService typeService;
 
 	@RequestMapping("/")
 	public String index(){
