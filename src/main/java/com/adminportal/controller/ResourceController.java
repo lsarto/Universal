@@ -16,6 +16,7 @@ import com.adminportal.service.CategoryService;
 import com.adminportal.service.ProductService;
 
 @RestController
+@RequestMapping("/adminportal")
 public class ResourceController {
 
 	@Autowired

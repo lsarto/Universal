@@ -14,6 +14,7 @@ import com.adminportal.domain.Type;
 import com.adminportal.service.TypeService;
 
 @Controller
+@RequestMapping("/adminportal")
 public class HomeController {
 	@Autowired
 	private TypeService typeService;

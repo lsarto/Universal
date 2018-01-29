@@ -37,7 +37,7 @@ import com.adminportal.service.TypeService;
 import com.adminportal.utility.ImageUtility;
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/adminportal/product")
 public class ProductController {
 	private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
 
