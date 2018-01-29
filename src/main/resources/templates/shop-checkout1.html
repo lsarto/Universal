@@ -497,7 +497,7 @@ _________________________________________________________ -->
 	    payment: function() {
 
 	        // Set up a url on your server to create the payment
-	        var CREATE_URL = 'http://localhost:8080/paymentWithPaypal/';
+	        var CREATE_URL = 'http://blooming-brushlands-98280.herokuapp.com/paymentWithPaypal/';
 
 	        /*<![CDATA[*/
 	        	var shippingAddress = JSON.stringify([[${shippingAddress}]]).replace(new RegExp('null', 'g'), '""');
@@ -537,10 +537,10 @@ _________________________________________________________ -->
 	        return paypal.request.post(CREATE_URL, data)
             .then(function(res) {
             	if(res.missField=='true'){
-            		window.location.replace("http://localhost:8080"+res.errPath);
+            		window.location.replace("http://blooming-brushlands-98280.herokuapp.com"+res.errPath);
             	}
             	if(res.emptyCart=='true'){
-            		window.location.replace("http://localhost:8080"+res.errPath);
+            		window.location.replace("http://blooming-brushlands-98280.herokuapp.com"+res.errPath);
             	}
                 return res.paymentID;
             });
@@ -574,7 +574,7 @@ _________________________________________________________ -->
 	    	}
 
 	        // Set up a url on your server to execute the payment
-	        var EXECUTE_URL = 'http://localhost:8080/paymentWithPaypal/';
+	        var EXECUTE_URL = 'http://blooming-brushlands-98280.herokuapp.com/paymentWithPaypal/';
 
 	        // Set up the data you need to pass to your server
 	        var data = {
@@ -587,7 +587,7 @@ _________________________________________________________ -->
 	            .then(function (res) {
 	  //          	window.alert("pagamento completato");
 
-					var url = 'http://localhost:8080/orderSubmittedPage/';
+					var url = 'http://blooming-brushlands-98280.herokuapp.com/orderSubmittedPage/';
 					post(url, {cartItemList: JSON.stringify(res.cartItemList), estimatedDeliveryDate: JSON.stringify(res.estimatedDeliveryDate)});
 	            });
 	    }
