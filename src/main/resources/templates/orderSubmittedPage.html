@@ -57,7 +57,7 @@
 
 								<a th:href="@{/shop-detail(id=${cartItem.product.id})}"> <img
 									class="img-responsive shelf-product"
-									th:src="#{adminPath}+@{/image/product/}+${cartItem.product.id}+'-1.png'"
+									th:src="@{/image/product/}+${cartItem.product.id}+'-1.png'"
 									style="width: 70px;" />
 								</a>
 							</div>
