@@ -134,9 +134,9 @@
 							aria-expanded="false">Prodotto <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li th:each="type : ${session.types}" th:value="${type.getName()}">
-								<a th:href="@{adminportal/product/add(typeSelected=${type.getName()})}">Aggiungi new
+								<a th:href="@{/adminportal/product/add(typeSelected=${type.getName()})}">Aggiungi new
 										<span th:text="${type.getName()}"></span></a></li>
-								<li><a th:href="@{adminportal/product/productList}">Visualizza
+								<li><a th:href="@{/adminportal/product/productList}">Visualizza
 										lista prodotti</a></li>
 							</ul></li>
 					</ul>
