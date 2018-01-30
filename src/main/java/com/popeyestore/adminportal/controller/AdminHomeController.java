@@ -25,11 +25,4 @@ public class AdminHomeController {
 	public String home(Model model){
 		return "home";
 	}
-	
-	@RequestMapping("/login")
-	public String login(HttpSession session){
-		List<Type> types = typeService.findAll();
-		session.setAttribute("types", types);
-		return "login";
-	}
 }
