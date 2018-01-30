@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
-<head th:replace="common/header :: common-header-admin" />
+<head th:replace="common/header-admin :: common-header-admin" />
 <meta charset="ISO-8859-1"></meta>
 
 <body>
@@ -9,7 +9,7 @@
 
 	<div class="container">
 		<div class="row">
-			<form class="form-horizontal" th:action="@{/product/add}" method="post"
+			<form class="form-horizontal" th:action="@{/adminportal/product/add}" method="post"
 				enctype="multipart/form-data">
 				<fieldset>
 					<legend class="center-block">
@@ -263,6 +263,6 @@
 	</div>
 
 
-	<div th:replace="common/header :: body-bottom-scripts" />
+	<div th:replace="common/header-admin :: body-bottom-scripts" />
 </body>
 </html>

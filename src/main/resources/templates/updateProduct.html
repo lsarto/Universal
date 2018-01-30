@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
-<head th:replace="common/header :: common-header-admin" />
+<head th:replace="common/header-admin :: common-header-admin" />
 <meta charset="ISO-8859-1"></meta>
 
 <body>
@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row">
 			<form class="form-horizontal"
-				th:action="@{/product/updateProduct}" method="post"
+				th:action="@{/adminportal/product/updateProduct}" method="post"
 				enctype="multipart/form-data">
 				<fieldset>
 					<legend class="center-block">
@@ -281,7 +281,7 @@
 						<div class="col-md-8">
 							<button type="submit" class="btn btn-success">Aggiorna</button>
 							<a class="btn btn-danger"
-								th:href="@{/product/productInfo(id=${dataTransfer.product.id})}">Annulla</a>
+								th:href="@{/adminportal/product/productInfo(id=${dataTransfer.product.id})}">Annulla</a>
 						</div>
 					</div>
 				</fieldset>
@@ -290,6 +290,6 @@
 	</div>
 
 
-	<div th:replace="common/header :: body-bottom-scripts" />
+	<div th:replace="common/header-admin :: body-bottom-scripts" />
 </body>
 </html>

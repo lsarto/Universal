@@ -19,10 +19,6 @@ public class AdminHomeController {
 	@Autowired
 	private AdminTypeService typeService;
 
-	@RequestMapping("/")
-	public String index(){
-		return "redirect:/home";
-	}
 	
 	@RequestMapping("/home")
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
