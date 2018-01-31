@@ -43,7 +43,7 @@
 							<div class="col-sm-6">
 								<div id="mainImage">
 									<img
-										th:src="@{/image/product/}+${product.id}+'-2.png'"
+										th:src="@{'data:image/png;base64,'+${product.encodeProductDetail1()}}"
 										alt="" class="img-responsive">
 								</div>
 
@@ -98,25 +98,25 @@
 								<div class="row" id="thumbs">
 									<div class="col-xs-4">
 										<a
-											th:href="@{/image/product/}+${product.id}+'-2.png'"
+											th:href="@{'data:image/png;base64,'+${product.encodeProductDetail1()}}"
 											class="thumb"> <img
-											th:src="@{/image/product/}+${product.id}+'-2.png'"
+											th:src="@{'data:image/png;base64,'+${product.encodeProductDetail1()}}"
 											alt="" class="img-responsive">
 										</a>
 									</div>
 									<div class="col-xs-4">
 										<a
-											th:href="@{/image/product/}+${product.id}+'-3.png'"
+											th:href="@{'data:image/png;base64,'+${product.encodeProductDetail2()}}"
 											class="thumb"> <img
-											th:src="@{/image/product/}+${product.id}+'-3.png'"
+											th:src="@{'data:image/png;base64,'+${product.encodeProductDetail2()}}"
 											alt="" class="img-responsive">
 										</a>
 									</div>
 									<div class="col-xs-4">
 										<a
-											th:href="@{/image/product/}+${product.id}+'-4.png'"
+											th:href="@{'data:image/png;base64,'+${product.encodeProductDetail3()}}"
 											class="thumb"> <img
-											th:src="@{/image/product/}+${product.id}+'-4.png'"
+											th:src="@{'data:image/png;base64,'+${product.encodeProductDetail3()}}"
 											alt="" class="img-responsive">
 										</a>
 									</div>

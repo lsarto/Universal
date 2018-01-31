@@ -57,7 +57,7 @@
 
 								<a th:href="@{/shop-detail(id=${cartItem.product.id})}"> <img
 									class="img-responsive shelf-product"
-									th:src="@{/image/product/}+${cartItem.product.id}+'-1.png'"
+									th:src="@{'data:image/png;base64,'+${product.encodeProductCategory()}}"
 									style="width: 70px;" />
 								</a>
 							</div>

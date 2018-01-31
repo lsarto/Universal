@@ -19,7 +19,7 @@
 					<div class="product">
 						<div class="image crop">
 							<a th:href="@{/shop-detail?id=}+${product.id}"> <img
-								th:src="@{/image/product/}+${product.id}+'-1.png'"
+								th:src="@{'data:image/png;base64,'+${product.encodeProductCategory()}}"
 								alt="" class="img-responsive image1">
 							</a>
 						</div>

@@ -1,11 +1,14 @@
 package com.popeyestore.adminportal.utility;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 public class ImageUtility {
 
@@ -67,6 +70,12 @@ public class ImageUtility {
         }
        
     }
- 
-
+    
+    public static BufferedImage resize(BufferedImage img, int newW, int newH) throws IOException {
+    	  return Thumbnails.of(img).size(newW, newH).asBufferedImage();
+    }
+    
+    public static BufferedImage forceResize(BufferedImage img, int newW, int newH) throws IOException {
+    	  return Thumbnails.of(img).forceSize(newW, newH).asBufferedImage();
+    }
 }

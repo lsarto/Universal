@@ -1,7 +1,15 @@
 package com.popeyestore.domain;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
+
+import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,10 +17,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -47,6 +57,17 @@ public class Product {
 	@Column(columnDefinition="text")
 	private String description;
 	private int inStockNumber;
+	
+	@Lob
+	private byte[] binaryProductCategory;
+	@Lob
+	private byte[] binaryProductDetail1;
+	@Lob
+	private byte[] binaryProductDetail2;
+	@Lob
+	private byte[] binaryProductDetail3;
+	@Lob
+	private byte[] binaryLatestImage;
 	
 	@Transient
 	private MultipartFile productCategory;
@@ -224,6 +245,64 @@ public class Product {
 		this.latest = latest;
 	}
 
+	public byte[] getBinaryProductCategory() {
+		return binaryProductCategory;
+	}
 
+	public void setBinaryProductCategory(byte[] binaryProductCategory) {
+		this.binaryProductCategory = binaryProductCategory;
+	}
+
+	public byte[] getBinaryProductDetail1() {
+		return binaryProductDetail1;
+	}
+
+	public void setBinaryProductDetail1(byte[] binaryProductDetail1) {
+		this.binaryProductDetail1 = binaryProductDetail1;
+	}
+
+	public byte[] getBinaryProductDetail2() {
+		return binaryProductDetail2;
+	}
+
+	public void setBinaryProductDetail2(byte[] binaryProductDetail2) {
+		this.binaryProductDetail2 = binaryProductDetail2;
+	}
+
+	public byte[] getBinaryProductDetail3() {
+		return binaryProductDetail3;
+	}
+
+	public void setBinaryProductDetail3(byte[] binaryProductDetail3) {
+		this.binaryProductDetail3 = binaryProductDetail3;
+	}
+
+	public byte[] getBinaryLatestImage() {
+		return binaryLatestImage;
+	}
+
+	public void setBinaryLatestImage(byte[] binaryLatestImage) {
+		this.binaryLatestImage = binaryLatestImage;
+	}
+
+	public String encodeProductDetail1() throws IOException{
+		return Base64.encodeBase64String(binaryProductDetail1);
+	}
+	
+	public String encodeProductDetail2() throws IOException{
+		return Base64.encodeBase64String(binaryProductDetail2);
+	}
+	
+	public String encodeProductDetail3() throws IOException{
+		return Base64.encodeBase64String(binaryProductDetail3);
+	}
+	
+	public String encodeProductCategory() throws IOException{
+		return Base64.encodeBase64String(binaryProductCategory);
+	}
+	
+	public String encodeLatestImage() throws IOException{
+		return Base64.encodeBase64String(binaryLatestImage);
+	}
 	
 }

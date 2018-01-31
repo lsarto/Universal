@@ -1,14 +1,20 @@
 package com.popeyestore.adminportal.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -99,6 +105,64 @@ public class ProductController {
 		if(product.getOurPrice()==0.0){
 			product.setOurPrice(product.getListPrice());
 		}
+		
+		MultipartFile productCategory = product.getProductCategory();
+		MultipartFile productDetail1 = product.getProductDetail1();
+		MultipartFile productDetail2 = product.getProductDetail2();
+		MultipartFile productDetail3 = product.getProductDetail3();
+		MultipartFile latestImage = product.getLatestImage();
+
+		try {
+			byte[] bytes;
+			InputStream in;
+			BufferedImage originalImage;
+			BufferedImage croppedImage;
+			ByteArrayOutputStream os;
+
+			bytes = productCategory.getBytes();
+			in = new ByteArrayInputStream(bytes);
+			originalImage = ImageIO.read(in);
+			croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+			os = new ByteArrayOutputStream();
+			ImageIO.write(croppedImage, "png", os);
+			product.setBinaryProductCategory(os.toByteArray());
+			
+		    bytes = productDetail1.getBytes();
+		    in = new ByteArrayInputStream(bytes);
+			originalImage = ImageIO.read(in);
+			croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+			os = new ByteArrayOutputStream();
+			ImageIO.write(croppedImage, "png", os);
+			product.setBinaryProductDetail1(os.toByteArray());
+			
+			bytes = productDetail2.getBytes();
+			in = new ByteArrayInputStream(bytes);
+			originalImage = ImageIO.read(in);
+			croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+			os = new ByteArrayOutputStream();
+			ImageIO.write(croppedImage, "png", os);
+			product.setBinaryProductDetail2(os.toByteArray());
+
+			bytes = productDetail3.getBytes();
+			in = new ByteArrayInputStream(bytes);
+			originalImage = ImageIO.read(in);
+			croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+			os = new ByteArrayOutputStream();
+			ImageIO.write(croppedImage, "png", os);
+			product.setBinaryProductDetail3(os.toByteArray());
+	
+			bytes = latestImage.getBytes();
+			in = new ByteArrayInputStream(bytes);
+			originalImage = ImageIO.read(in);
+			croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+			os = new ByteArrayOutputStream();
+			ImageIO.write(croppedImage, "png", os);
+			product.setBinaryLatestImage(os.toByteArray());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		productService.save(product);
 		
 		//save attributes
@@ -137,63 +201,6 @@ public class ProductController {
 				+", Sale"+product.isSale()+", New: "+product.isNewProduct()
 				+", Status: "+product.isActive()+", Description: "+product.getDescription());
 
-		MultipartFile productCategory = product.getProductCategory();
-		MultipartFile productDetail1 = product.getProductDetail1();
-		MultipartFile productDetail2 = product.getProductDetail2();
-		MultipartFile productDetail3 = product.getProductDetail3();
-		MultipartFile latestImage = product.getLatestImage();
-
-		try {
-			byte[] bytes;
-			BufferedOutputStream stream;
-			String name;
-			String path;
-
-			
-			bytes = productCategory.getBytes();
-			name = product.getId() + "-1.png";
-			path = "src/main/resources/static/image/product/" + name;
-			stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path)));
-			stream.write(bytes);
-			ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-			
-		    bytes = productDetail1.getBytes();
-			name = product.getId() + "-2.png";
-			path = "src/main/resources/static/image/product/" + name;
-			stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path)));
-			stream.write(bytes);
-			ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-			
-			bytes = productDetail2.getBytes();
-			name = product.getId() + "-3.png";
-			path = "src/main/resources/static/image/product/" + name;
-			stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path)));
-			stream.write(bytes);
-			ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-			
-			bytes = productDetail3.getBytes();
-			name = product.getId() + "-4.png";
-			path = "src/main/resources/static/image/product/" + name;
-			stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path)));
-			stream.write(bytes);
-			ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-			
-			bytes = latestImage.getBytes();
-			name = product.getId() + "-5.png";
-			path = "src/main/resources/static/image/product/" + name;
-			stream = new BufferedOutputStream(
-					new FileOutputStream(new File(path)));
-			stream.write(bytes);
-			ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-			
-			stream.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		return "redirect:productList";
 	}
@@ -235,7 +242,15 @@ public class ProductController {
 	@RequestMapping(value="/updateProduct", method=RequestMethod.POST)
 	public String updateProductPost(@ModelAttribute("dataTransfer") DataTransfer dataTransfer, HttpServletRequest request) {
 		Product product = dataTransfer.getProduct();
+		Product productInRepository = productService.findOne(product.getId());
 		List<ProductAttribute> attributeList = product.getProductAttributes();
+				
+		//save old images
+		product.setBinaryLatestImage(productInRepository.getBinaryLatestImage());
+		product.setBinaryProductDetail1(productInRepository.getBinaryProductDetail1());
+		product.setBinaryProductDetail2(productInRepository.getBinaryProductDetail2());
+		product.setBinaryProductDetail3(productInRepository.getBinaryProductDetail3());
+		product.setBinaryProductCategory(productInRepository.getBinaryProductCategory());
 		
 		//save type
 		Long typeId = product.getType().getId();
@@ -255,7 +270,6 @@ public class ProductController {
 		}
 		if(categoryChanged){ // if category has changed
 			//update qty in old category
-			Product productInRepository = productService.findOne(product.getId());
 			Long oldCatgoryId = productInRepository.getCategory().getId();
 			Category oldCategory = categoryService.findOne(oldCatgoryId);
 			oldCategory.setQty(oldCategory.getQty()-1);
@@ -268,7 +282,86 @@ public class ProductController {
 			//association of new category to product
 			product.setCategory(category);
 		}
+		MultipartFile productCategory = product.getProductCategory();
+		MultipartFile productDetail1 = product.getProductDetail1();
+		MultipartFile productDetail2 = product.getProductDetail2();
+		MultipartFile productDetail3 = product.getProductDetail3();
+		MultipartFile latestImage = product.getLatestImage();
+		byte[] bytes;
+		InputStream in;
+		BufferedImage originalImage;
+		BufferedImage croppedImage;
+		ByteArrayOutputStream os;
 		
+		if(!productCategory.isEmpty()) {
+			try {
+				bytes = productCategory.getBytes();
+				in = new ByteArrayInputStream(bytes);
+				originalImage = ImageIO.read(in);
+				croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+				os = new ByteArrayOutputStream();
+				ImageIO.write(croppedImage, "png", os);
+				product.setBinaryProductCategory(os.toByteArray());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(!productDetail1.isEmpty()) {
+			try {
+				bytes = productDetail1.getBytes();
+			    in = new ByteArrayInputStream(bytes);
+				originalImage = ImageIO.read(in);
+				croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+				os = new ByteArrayOutputStream();
+				ImageIO.write(croppedImage, "png", os);
+				product.setBinaryProductDetail1(os.toByteArray());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(!productDetail2.isEmpty()) {
+			try {
+				bytes = productDetail2.getBytes();
+				in = new ByteArrayInputStream(bytes);
+				originalImage = ImageIO.read(in);
+				croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+				os = new ByteArrayOutputStream();
+				ImageIO.write(croppedImage, "png", os);
+				product.setBinaryProductDetail2(os.toByteArray());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(!productDetail3.isEmpty()) {
+			try {
+				bytes = productDetail3.getBytes();
+				in = new ByteArrayInputStream(bytes);
+				originalImage = ImageIO.read(in);
+				croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+				os = new ByteArrayOutputStream();
+				ImageIO.write(croppedImage, "png", os);
+				product.setBinaryProductDetail3(os.toByteArray());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(!latestImage.isEmpty()) {
+			try {
+				bytes = latestImage.getBytes();
+				in = new ByteArrayInputStream(bytes);
+				originalImage = ImageIO.read(in);
+				croppedImage = ImageUtility.forceResize(originalImage, IMAGE_WIDTH, IMAGE_HEIGHT);
+				os = new ByteArrayOutputStream();
+				ImageIO.write(croppedImage, "png", os);
+				product.setBinaryLatestImage(os.toByteArray());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 		//save product
 		product.setProductAttributes(null);
@@ -305,103 +398,9 @@ public class ProductController {
 				+", Sale"+product.isSale()+", New: "+product.isNewProduct()
 				+", Status: "+product.isActive()+", Description: "+product.getDescription());
 		
-		MultipartFile productCategory = product.getProductCategory();
-		MultipartFile productDetail1 = product.getProductDetail1();
-		MultipartFile productDetail2 = product.getProductDetail2();
-		MultipartFile productDetail3 = product.getProductDetail3();
-		MultipartFile latestImage = product.getLatestImage();
+//		
 		
-		if(!productCategory.isEmpty()) {
-			try {
-				byte[] bytes = productCategory.getBytes();
-				String name = product.getId() + "-1.png";
-				String path = "src/main/resources/static/image/product/"+name;
-				
-				Files.delete(Paths.get(path));
-				
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(path)));
-				stream.write(bytes);
-				ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-				stream.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(!productDetail1.isEmpty()) {
-			try {
-				byte[] bytes = productDetail1.getBytes();
-				String name = product.getId() + "-2.png";
-				String path = "src/main/resources/static/image/product/"+name;
-				
-				Files.delete(Paths.get(path));
-				
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(path)));
-				stream.write(bytes);
-				ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-				stream.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(!productDetail2.isEmpty()) {
-			try {
-				byte[] bytes = productDetail2.getBytes();
-				String name = product.getId() + "-3.png";
-				String path = "src/main/resources/static/image/product/"+name;
-				
-				Files.delete(Paths.get(path));
-				
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(path)));
-				stream.write(bytes);
-				ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-				stream.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(!productDetail3.isEmpty()) {
-			try {
-				byte[] bytes = productDetail3.getBytes();
-				String name = product.getId() + "-4.png";
-				String path = "src/main/resources/static/image/product/"+name;
-				
-				Files.delete(Paths.get(path));
-				
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(path)));
-				stream.write(bytes);
-				ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-				stream.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if(!latestImage.isEmpty()) {
-			try {
-				byte[] bytes = latestImage.getBytes();
-				String name = product.getId() + "-5.png";
-				String path = "src/main/resources/static/image/product/"+name;
-				
-				Files.delete(Paths.get(path));
-				
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(new File(path)));
-				stream.write(bytes);
-				ImageUtility.resize(path, path, IMAGE_WIDTH, IMAGE_HEIGHT);
-				stream.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return "redirect:/product/productInfo?id="+product.getId();
+		return "redirect:/adminportal/product/productInfo?id="+product.getId();
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

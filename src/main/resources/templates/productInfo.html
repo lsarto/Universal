@@ -18,7 +18,7 @@
 			<div class="col-xs-3">
 				<div class="panel panel-default">
 				<div class="panel-body">
-					<img th:src="@{/image/product/}+${product.id}+'-1.png'" class="img-responsive center-block" />
+					<img th:src="@{'data:image/png;base64,'+${product.encodeProductCategory()}}" class="img-responsive center-block" />
 				</div>
 				</div>
 			</div>

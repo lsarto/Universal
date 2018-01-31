@@ -65,9 +65,8 @@
 									<tbody th:each="cartItem : ${cartItemList}">
 										<tr th:if="${cartItem.product.active}">
 											<td><a
-												th:href="@{shop-detail(id=${cartItem.product.id})}"> <img
-													th:src="@{/image/product/}+
-														${cartItem.product.id}+'-1.png'">
+												th:href="@{/shop-detail?id=}+${cartItem.product.id}"> <img
+												th:src="@{'data:image/png;base64,'+${cartItem.product.encodeProductCategory()}}">
 											</a></td>
 											<td><a
 												th:href="@{/shop-detail?id=}+${cartItem.product.id}"><span

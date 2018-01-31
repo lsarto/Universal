@@ -107,7 +107,9 @@
 							<div th:each="product : ${productList}" class="col-sm-4">
 								<div class="box-image">
 									<div class="image">
-										<img th:src="@{/image/product/}+${product.id}+'-5.png'" alt="" class="img-responsive">
+										<img 
+										th:src="@{'data:image/png;base64,'+${product.encodeLatestImage()}}"
+										alt="" class="img-responsive">
 									</div>
 									<div class="bg"></div>
 									<div class="name">
