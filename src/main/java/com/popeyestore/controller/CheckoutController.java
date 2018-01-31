@@ -275,8 +275,9 @@ public class CheckoutController {
 					cartItemList.remove(rmvIndx.intValue());
 				}
 
-				serialized = "{\"cartItemList\":"+mapper.writeValueAsString(cartItemList)+
-						", \"estimatedDeliveryDate\":"+mapper.writeValueAsString(formattedStringDate)+"}";
+				//*************data for POST*************//
+//				serialized = "{\"cartItemList\":"+mapper.writeValueAsString(cartItemList)+
+//						", \"estimatedDeliveryDate\":"+mapper.writeValueAsString(formattedStringDate)+"}";
 				
 				User user = userService.findByUsername(principal.getName());
 				Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, shippingMethod, user);
@@ -284,6 +285,9 @@ public class CheckoutController {
 				shoppingCartService.clearShoppingCart(shoppingCart);
 				shippingAddress = new ShippingAddress();
 				billingAddress = new BillingAddress();
+				
+				serialized = "{\"orderID\":"+mapper.writeValueAsString(order.getId())+
+						", \"estimatedDeliveryDate\":"+mapper.writeValueAsString(formattedStringDate)+"}";
 				
 			} catch (PayPalRESTException e) {
 				e.printStackTrace();
@@ -473,37 +477,58 @@ public class CheckoutController {
 		return serialized;
 	}
 	
-	@RequestMapping(value = "/orderSubmittedPage", method = RequestMethod.POST)
-	public String orderSubmittedPage(@ModelAttribute("cartItemList") String cartItemListString,
-			@ModelAttribute("estimatedDeliveryDate") String estimatedDeliveryDateString, 
+	@RequestMapping(value = "/orderSubmittedPage")
+	public String orderSubmittedPage(@RequestParam("estimatedDeliveryDate") String estimatedDeliveryDate,
+			@RequestParam("orderID") String orderID,
 			Principal principal, Model model) {
-		ObjectMapper mapper = new ObjectMapper();
-		JavaType listType = mapper
-			    .getTypeFactory()
-			    .constructCollectionType(List.class, CartItem.class);
+
 		List<CartItem> cartItemList = null;
-		String formattedStringDate = null;
-		try {
-			cartItemList = mapper.readValue(cartItemListString, listType);
-			formattedStringDate = mapper.readValue(estimatedDeliveryDateString, String.class);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		User user = userService.findByUsername(principal.getName());
+		Order order = orderService.findOne(Long.valueOf(orderID));
+		
+		if(user.getId() != order.getUser().getId()) {
+			return "badRequestPage";
+		} else {
+			cartItemList = order.getCartItemList();
 		}
-		LocalDate estimatedDeliveryDate = LocalDate.parse(formattedStringDate);
 		
 		model.addAttribute("cartItemList", cartItemList);
 		model.addAttribute("estimatedDeliveryDate", estimatedDeliveryDate);
 		
 		return "orderSubmittedPage";
 	}
-
+	
+//	@RequestMapping(value = "/orderSubmittedPage", method = RequestMethod.POST)
+//	public String orderSubmittedPage(@ModelAttribute("cartItemListString") String cartItemListString,
+//			@ModelAttribute("estimatedDeliveryDateString") String estimatedDeliveryDateString,
+//			Principal principal, Model model) {
+//
+//		ObjectMapper mapper = new ObjectMapper();
+//		JavaType listType = mapper
+//			    .getTypeFactory()
+//			    .constructCollectionType(List.class, CartItem.class);
+//		List<CartItem> cartItemList = null;
+//		String formattedStringDate = null;
+//		try {
+//			cartItemList = mapper.readValue(cartItemListString, listType);
+//			formattedStringDate = mapper.readValue(estimatedDeliveryDateString, String.class);
+//		} catch (JsonParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		LocalDate estimatedDeliveryDate = LocalDate.parse(formattedStringDate);
+//		
+//		model.addAttribute("cartItemList", cartItemList);
+//		model.addAttribute("estimatedDeliveryDate", estimatedDeliveryDate);
+//		
+//		return "orderSubmittedPage";
+//	}
 
 	@RequestMapping("/setShippingAddress")
 	public String setShippingAddress(@RequestParam("userShippingId") Long userShippingId, Principal principal,

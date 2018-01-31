@@ -172,7 +172,8 @@
 										<div class="form-group">
 											<label for="billingAddress">* Indirizzo</label> <input
 												type="text" class="form-control billingAddress"
-												id="billingAddress1" placeholder="Indirizzo Fatturazione Linea 1"
+												id="billingAddress1"
+												placeholder="Indirizzo Fatturazione Linea 1"
 												th:name="billingAddressStreet1" required="required"
 												th:value="${billingAddress.billingAddressStreet1}" />
 										</div>
@@ -405,7 +406,7 @@
 												<tr>
 													<td><a
 														th:href="@{shop-detail(id=${cartItem.product.id})}"> <img
-														th:src="@{'data:image/png;base64,'+${cartItem.product.encodeProductCategory()}}">
+															th:src="@{'data:image/png;base64,'+${cartItem.product.encodeProductCategory()}}">
 													</a></td>
 													<td><a
 														th:href="@{/shop-detail?id=}+${cartItem.product.id}"><span
@@ -413,10 +414,15 @@
 													<td><input type="number" class="form-control"
 														th:id="${cartItem.id}" th:name="qty" th:disabled="true"
 														th:value="${cartItem.qty}" /></td>
-													<td><span th:text="${#numbers.formatDecimal(cartItem.product.listPrice, 1 ,2)}"></span> €</td>
-													<td><span th:text="${#numbers.formatDecimal(cartItem.product.ourPrice, 1 ,2)}"></span> €</td>
 													<td><span
-														th:text="${#numbers.formatDecimal(cartItem.qty * cartItem.product.ourPrice, 1 ,2)}"></span> €</td>
+														th:text="${#numbers.formatDecimal(cartItem.product.listPrice, 1 ,2)}"></span>
+														€</td>
+													<td><span
+														th:text="${#numbers.formatDecimal(cartItem.product.ourPrice, 1 ,2)}"></span>
+														€</td>
+													<td><span
+														th:text="${#numbers.formatDecimal(cartItem.qty * cartItem.product.ourPrice, 1 ,2)}"></span>
+														€</td>
 												</tr>
 											</tbody>
 
@@ -424,7 +430,8 @@
 												<tr>
 													<th colspan="5">Totale</th>
 													<th colspan="2"><span
-														th:text="${#numbers.formatDecimal(shoppingCart.grandTotal, 1 ,2)}"></span> €</th>
+														th:text="${#numbers.formatDecimal(shoppingCart.grandTotal, 1 ,2)}"></span>
+														€</th>
 												</tr>
 											</tfoot>
 
@@ -486,7 +493,10 @@ _________________________________________________________ -->
 	<div th:replace="common/header :: body-bottom-scripts"></div>
 	<script th:inline="javascript">
 	paypal.Button.render({
-
+		
+		var PATH = 'https://blooming-brushlands-98280.herokuapp.com';
+		//var PATH = 'http://localhost:8080';
+		
 	    env: 'sandbox', // sandbox | production
 
 	    // Show the buyer a 'Pay Now' button in the checkout flow
@@ -496,7 +506,7 @@ _________________________________________________________ -->
 	    payment: function() {
 
 	        // Set up a url on your server to create the payment
-	        var CREATE_URL = 'http://blooming-brushlands-98280.herokuapp.com/paymentWithPaypal/';
+	        var CREATE_URL = PATH+'/paymentWithPaypal/';
 
 	        /*<![CDATA[*/
 	        	var shippingAddress = JSON.stringify([[${shippingAddress}]]).replace(new RegExp('null', 'g'), '""');
@@ -536,10 +546,10 @@ _________________________________________________________ -->
 	        return paypal.request.post(CREATE_URL, data)
             .then(function(res) {
             	if(res.missField=='true'){
-            		window.location.replace("http://blooming-brushlands-98280.herokuapp.com"+res.errPath);
+            		window.location.replace(PATH+res.errPath);
             	}
             	if(res.emptyCart=='true'){
-            		window.location.replace("http://blooming-brushlands-98280.herokuapp.com"+res.errPath);
+            		window.location.replace(PATH+res.errPath);
             	}
                 return res.paymentID;
             });
@@ -573,7 +583,7 @@ _________________________________________________________ -->
 	    	}
 
 	        // Set up a url on your server to execute the payment
-	        var EXECUTE_URL = 'http://blooming-brushlands-98280.herokuapp.com/paymentWithPaypal/';
+	        var EXECUTE_URL = PATH+'/paymentWithPaypal/';
 
 	        // Set up the data you need to pass to your server
 	        var data = {
@@ -586,8 +596,9 @@ _________________________________________________________ -->
 	            .then(function (res) {
 	  //          	window.alert("pagamento completato");
 
-					var url = 'http://blooming-brushlands-98280.herokuapp.com/orderSubmittedPage/';
-					post(url, {cartItemList: JSON.stringify(res.cartItemList), estimatedDeliveryDate: JSON.stringify(res.estimatedDeliveryDate)});
+	  				window.location.replace(PATH+'/orderSubmittedPage?estimatedDeliveryDate='+res.estimatedDeliveryDate
+	  						+'&orderID='+res.orderID);
+					//post(PATH, {cartItemListString: JSON.stringify(res.cartItemList), estimatedDeliveryDateString: JSON.stringify(res.estimatedDeliveryDate)});
 	            });
 	    }
 
