@@ -494,9 +494,6 @@ _________________________________________________________ -->
 	<script th:inline="javascript">
 	paypal.Button.render({
 		
-		var PATH = 'https://blooming-brushlands-98280.herokuapp.com';
-		//var PATH = 'http://localhost:8080';
-		
 	    env: 'sandbox', // sandbox | production
 
 	    // Show the buyer a 'Pay Now' button in the checkout flow
@@ -505,6 +502,9 @@ _________________________________________________________ -->
 	    // payment() is called when the button is clicked
 	    payment: function() {
 
+			var PATH = 'https://blooming-brushlands-98280.herokuapp.com';
+			//var PATH = 'http://localhost:8080';
+			
 	        // Set up a url on your server to create the payment
 	        var CREATE_URL = PATH+'/paymentWithPaypal/';
 
@@ -558,6 +558,9 @@ _________________________________________________________ -->
 
 	    // onAuthorize() is called when the buyer approves the payment
 	    onAuthorize: function(data, actions) {
+	    	var PATH = 'https://blooming-brushlands-98280.herokuapp.com';
+			//var PATH = 'http://localhost:8080';
+	    	
 	    	function post(path, params, method) {
 	    	    method = method || "post"; // Set method to post by default if not specified.
 
