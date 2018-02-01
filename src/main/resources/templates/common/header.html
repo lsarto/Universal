@@ -82,8 +82,8 @@ ________________________________________________________ -->
 								lino.sarto@gmail.com</p>
 							<p class="hidden-md hidden-lg">
 								<a href="tel:3930961403" data-animate-hover="pulse"><i
-									class="fa fa-phone"></i></a> <a href="mailto:lino.sarto@gmail.com" data-animate-hover="pulse"><i
-									class="fa fa-envelope"></i></a>
+									class="fa fa-phone"></i></a> <a href="mailto:lino.sarto@gmail.com"
+									data-animate-hover="pulse"><i class="fa fa-envelope"></i></a>
 							</p>
 						</div>
 						<div class="col-xs-7">
@@ -120,100 +120,87 @@ ________________________________________________________ -->
 			<!-- *** TOP END *** -->
 
 			<!-- *** NAVBAR ***
-    _________________________________________________________ -->
+ _________________________________________________________ -->
 
-			<div data-offset-top="200">
+			<div class="navbar navbar-default yamm" role="navigation" id="navbar">
+				<div class="container">
+					<div class="navbar-header">
 
-				<div class="navbar navbar-default navbar-static-top" role="navigation" id="navbar">
-
-					<div class="container">
-						<div class="navbar-header">
-
-							<a class="navbar-brand home" th:href="@{/}"> <img
-								src="/image/logo-my.jpg" alt="Universal logo"
-								class="hidden-xs hidden-sm"> <img src="/image/logo-my-small.jpg"
-								alt="Universal logo" class="visible-xs visible-sm"><span
-								class="sr-only">Universal - go to homepage</span>
+						<a class="navbar-brand home" th:href="@{/}"
+							data-animate-hover="bounce"> <img src="/image/logo-my.jpg"
+							alt="Obaju logo" class="hidden-xs"> <img
+							src="/image/logo-my-small.jpg" alt="Obaju logo"
+							class="visible-xs"><span class="sr-only">Obaju - go
+								to homepage</span>
+						</a>
+						<div class="navbar-buttons">
+							<button type="button" class="navbar-toggle"
+								data-toggle="collapse" data-target="#navigation">
+								<span class="sr-only">Toggle navigation</span> <i
+									class="fa fa-align-justify"></i>
+							</button>
+							<button type="button" class="navbar-toggle"
+								data-toggle="collapse" data-target="#search">
+								<span class="sr-only">Toggle search</span> <i
+									class="fa fa-search"></i>
+							</button>
+							<a class="btn btn-default navbar-toggle"
+								th:href="@{/shoppingCart/cart}"> <i
+								class="fa fa-shopping-cart"></i> <span class="hidden-xs">carrello</span>
 							</a>
-							<div class="navbar-buttons">
-								<button type="button" class="navbar-toggle btn-template-main"
-									data-toggle="collapse" data-target=".navbar-collapse">
-									<span class="sr-only">Toggle navigation</span> <i
-										class="fa fa-align-justify"></i>
-								</button>
-							</div>
-
-							<!-- If want to use navbar inline
-								<form class="navbar-form navbar-left"
-									role="search">
-									<div class="input-group">
-										<input type="text" class="form-control" placeholder="Search">
-										<span class="input-group-btn">
-	
-											<button type="submit" class="btn btn-template-main">
-												<i class="fa fa-search"></i>
-											</button>
-	
-										</span>
-									</div>
-								</form>
-							 -->
-						</div>
-						<!--/.navbar-header -->
-
-						<div class="navbar-collapse collapse nav-col" id="navigation">
-							<ul class="nav navbar-nav navbar-right">
-								<li th:each="type: ${session.types}" class="dropdown"><a
-									href="#" class="dropdown-toggle" href="#"
-									data-toggle="dropdown"> <span class="dropdown-toggle"
-										th:text="${type.getName()}" th:remove="tag"></span> <b
-										class="caret"></b></a>
-									<ul class="dropdown-menu">
-										<li th:each="category: ${type.categories}"><a
-											th:href="@{/searchByCategory(category=${category.id})}"
-											th:text="${category.name}"></a></li>
-									</ul></li>
-								<li th:classappend="${carrello}? 'active dropdown'"><a
-									th:href="@{/shoppingCart/cart}" href="#"
-									class="dropdown-toggle"><span
-										class="glyphicon glyphicon-shopping-cart"></span> Carrello</a></li>
-
-							</ul>
-							<div class="clearfix" id="search">
-								<form class="navbar-form navbar-right" role="search"
-									th:action="@{searchProduct}" method="post">
-									<div class="input-group">
-										<input type="text" class="form-control" name="keyword"
-											placeholder="Search"> <span class="input-group-btn">
-
-											<button type="submit" class="btn btn-template-main">
-												<i class="fa fa-search"></i>
-											</button>
-
-										</span>
-									</div>
-								</form>
-							</div>
-							<!-- <form class="navbar-form" role="search"
-								th:action="@{searchCigarette}" method="post">
-								<div class="input-group">
-									<input type="text" class="form-control" name="keyword"
-										placeholder="Search"> <span class="input-group-btn">
-
-										<button type="submit" class="btn btn-template-main">
-											<i class="fa fa-search"></i>
-										</button>
-
-									</span>
-								</div>
-							</form> -->
 						</div>
 					</div>
+					<!--/.navbar-header -->
 
+					<div class="navbar-collapse collapse" id="navigation">
+
+						<ul class="nav navbar-nav navbar-left">
+							<li th:each="type: ${session.types}" class="dropdown"><a
+								href="#" class="dropdown-toggle" href="#" data-toggle="dropdown">
+									<span class="dropdown-toggle" th:text="${type.getName()}"
+									th:remove="tag"></span> <b class="caret"></b>
+							</a>
+								<ul class="dropdown-menu">
+									<li th:each="category: ${type.categories}"><a
+										th:href="@{/searchByCategory(category=${category.id})}"
+										th:text="${category.name}"></a></li>
+								</ul></li>
+						</ul>
+
+						<div class="navbar-buttons">
+							<div class="navbar-collapse collapse right" id="basket-overview">
+								<a th:href="@{/shoppingCart/cart}" class="btn btn-template-main"><i
+									class="fa fa-shopping-cart"></i><span class="hidden-sm">carrello</span></a>
+								<button type="button" class="btn btn-template-main"
+									data-toggle="collapse" data-target="#search">
+									<span class="sr-only">Toggle search</span> <i
+										class="fa fa-search"></i>
+								</button>
+							</div>
+							<!--/.nav-collapse -->
+						</div>
+					</div>
+					<!--/.nav-collapse -->
+					<div class="collapse clearfix" id="search">
+						<form class="navbar-form navbar-right" role="search"
+							th:action="@{searchProduct}" method="post">
+							<div class="input-group">
+								<input type="text" class="form-control" name="keyword"
+									placeholder="Search"> <span class="input-group-btn">
+
+									<button type="submit" class="btn btn-template-main">
+										<i class="fa fa-search"></i>
+									</button>
+
+								</span>
+							</div>
+						</form>
+					</div>
+					<!--/.nav-collapse -->
 				</div>
-				<!-- /#navbar -->
-
+				<!-- /.container -->
 			</div>
+			<!-- /#navbar -->
 
 			<!-- *** NAVBAR END *** -->
 		</header>
