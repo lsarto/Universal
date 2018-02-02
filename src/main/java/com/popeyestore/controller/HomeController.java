@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
@@ -126,6 +127,11 @@ public class HomeController {
 		model.addAttribute("productList", productList);
 		model.addAttribute("home", true);
 		return "index5";
+	}
+	
+	@RequestMapping("/badRequest")
+	public String badRequest(HttpServletRequest request, Model model){
+		return "404";
 	}
 
 	@RequestMapping("/login")
