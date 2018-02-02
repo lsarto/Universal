@@ -128,7 +128,7 @@
 
 						<div class="box" id="details">
 							<p>
-							<h4>Descrizione Prodotto</h4>
+							<h4 th:if="${product.description}">Descrizione Prodotto</h4>
 							<p th:utext="${product.description}"></p>
 							<div th:each="attribute: ${product.productAttributes}">
 								<h4 th:text="${attribute.name}"></h4>
