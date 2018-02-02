@@ -95,7 +95,7 @@
 						<div class="col-md-8">
 							<div class="input-group">
 								<input th:value="${dataTransfer.product.shippingWeight}"
-									type="number" step="0.01" name="product.shippingWeight"
+									type="number" step="0.01" name="product.shippingWeight" min="0"
 									class="form-control" id="shippingWeight"
 									placeholder="Shipping Weight" /> <span
 									class="input-group-addon">Kg</span>
@@ -112,7 +112,7 @@
 							<div class="input-group">
 								<span class="input-group-addon">€</span> <input
 									th:value="${dataTransfer.product.listPrice}" type="number"
-									step="0.01" name="product.listPrice" class="form-control"
+									step="0.01" name="product.listPrice" class="form-control" min="0"
 									id="listPrice" placeholder="List Price" />
 							</div>
 							<span class="help-block">Prezzo Lista del prodotto</span>
@@ -127,7 +127,7 @@
 							<div class="input-group">
 								<span class="input-group-addon">€</span> <input
 									th:value="${dataTransfer.product.ourPrice}" type="number"
-									step="0.01" name="product.ourPrice" class="form-control"
+									step="0.01" name="product.ourPrice" class="form-control" min="0"
 									id="ourPrice" placeholder="Our Price" />
 							</div>
 							<span class="help-block">Nostro Prezzo del prodotto</span>
@@ -139,7 +139,7 @@
 						<label class="col-md-2 control-label" for="inStockNumber">SKU</label>
 						<div class="col-md-8">
 							<input th:value="${dataTransfer.product.inStockNumber}"
-								type="number" name="product.inStockNumber" class="form-control"
+								type="number" name="product.inStockNumber" class="form-control" min="0"
 								id="inStockNumber" placeholder="Number of in-stock copies" /> <span
 								class="help-block">Numero copie in stock</span>
 						</div>
