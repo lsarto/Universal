@@ -75,15 +75,9 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		Type kitCompleti = new Type();
 		kitCompleti.setName("Kit Completi");
 		kitCompleti.setProducts(new ArrayList<Product>());
-		Type tvEaudio = new Type();
-		tvEaudio.setName("Tv e Audio");
-		tvEaudio.setProducts(new ArrayList<Product>());
-		Type fotografiaEauto = new Type();
-		fotografiaEauto.setName("Fotografia e Auto");
-		fotografiaEauto.setProducts(new ArrayList<Product>());
-		Type elettrodomestici = new Type();
-		elettrodomestici.setName("Elettrodomestici");
-		elettrodomestici.setProducts(new ArrayList<Product>());
+		Type bigBattery = new Type();
+		bigBattery.setName("Big Battery");
+		bigBattery.setProducts(new ArrayList<Product>());
 
 		
 //		Category category11 = new Category();
@@ -111,6 +105,48 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		Category kitSmok = new Category();
 		Category kitSuorin = new Category();
 		Category kitWismec = new Category();
+		
+		Category armax = new Category();
+		Category arctic = new Category();
+		Category aimidi = new Category();
+		Category aspire = new Category();
+		Category dovpo = new Category();
+		Category digiflavor = new Category();
+		Category eleaf = new Category();
+		Category envii = new Category();
+		Category eycotech = new Category();
+		Category geekvape = new Category();
+		Category gtrs = new Category();
+		Category hotcig = new Category();
+		Category hcigar = new Category();
+		Category hugoVapor = new Category();
+		Category sxminiYihi = new Category();
+		Category innokin = new Category();
+		Category ijoy = new Category();
+		Category lostVape = new Category();
+		Category justFog = new Category();
+		Category joyetech = new Category();
+		Category kangertech = new Category();
+		Category rev = new Category();
+		Category sigelei = new Category();
+		Category smok = new Category();
+		Category sofgod = new Category();
+		Category suorin = new Category();
+		Category tesla = new Category();
+		Category yosta = new Category();
+		Category yiloong = new Category();
+		Category yocan = new Category();
+		Category thinkvape = new Category();
+		Category ud = new Category();
+		Category vaoecige = new Category();
+		Category vandy = new Category();
+		Category vapeonly = new Category();
+		Category vaporesso = new Category();
+		Category vivakita = new Category();
+		Category vgid = new Category();
+		Category vzone = new Category();
+		Category wismec = new Category();
+		Category wotofo = new Category();
 
 
 		kitArmax.setName("Kit Armax");
@@ -135,6 +171,49 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		kitSuorin.setName("kit Suorin");
 		kitWismec.setName("Kit Wismec");
 
+		armax.setName("Armax V/W");
+		arctic.setName("Arctic V/W");
+		aimidi.setName("Aimidi V/W");
+		aspire.setName("Aspire V/W");
+		dovpo.setName("Dovpo V/W");
+		digiflavor.setName("Digiflavor V/W");
+		eleaf.setName("Eleaf V/W");
+		envii.setName("Envii V/W");
+		eycotech.setName("Eycotech V/W");
+		geekvape.setName("Geekvape V/W");
+		gtrs.setName("Gtrs V/W");
+		hotcig.setName("Hotcig V/W");
+		hcigar.setName("Hcigar V/W");
+		hugoVapor.setName("HugoVapor V/W");
+		sxminiYihi.setName("SxminiYihi V/W");
+		innokin.setName("Innokin V/W");
+		ijoy.setName("Ijoy V/W");
+		lostVape.setName("LostVape V/W");
+		justFog.setName("JustFog V/W");
+		joyetech.setName("Joyetech V/W");
+		kangertech.setName("Kangertech V/W");
+		rev.setName("Rev V/W");
+		sigelei.setName("Sigelei V/W");
+		smok.setName("Smok V/W");
+		sofgod.setName("Sofgod V/W");
+		suorin.setName("Suorin V/W");
+		tesla.setName("Tesla V/W");
+		yosta.setName("Yosta V/W");
+		yiloong.setName("Yiloong V/W");
+		yocan.setName("Yocan V/W");
+		thinkvape.setName("Thinkvape V/W");
+		ud.setName("Ud V/W");
+		vaoecige.setName("Vaoecige V/W");
+		vandy.setName("Vandy V/W");
+		vapeonly.setName("Vapeonly V/W");
+		vaporesso.setName("Vaporesso V/W");
+		vivakita.setName("Vivakita V/W");
+		vgid.setName("Vgid V/W");
+		vzone.setName("Vzone V/W");
+		wismec.setName("Wismec V/W");
+		wotofo.setName("Wotofo V/W");
+
+		
 		
 //		category11.setName("category11");
 //		category12.setName("category12");
@@ -145,10 +224,7 @@ public class PopeyestoreApplication implements CommandLineRunner {
 //		typeService.createType(type1);
 //		typeService.createType(type2);
 		typeService.createType(kitCompleti);
-		typeService.createType(tvEaudio);
-		typeService.createType(fotografiaEauto);
-		typeService.createType(elettrodomestici);
-		typeService.createType(elettrodomestici);
+		typeService.createType(bigBattery);
 
 
 		
@@ -179,6 +255,49 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		categoryService.createCategory(kitSuorin, kitCompleti);
 		categoryService.createCategory(kitWismec, kitCompleti);
 		
+		categoryService.createCategory(armax, bigBattery);
+		categoryService.createCategory(arctic, bigBattery);
+		categoryService.createCategory(aimidi, bigBattery);
+		categoryService.createCategory(aspire, bigBattery);
+		categoryService.createCategory(dovpo, bigBattery);
+		categoryService.createCategory(digiflavor, bigBattery);
+		categoryService.createCategory(eleaf, bigBattery);
+		categoryService.createCategory(envii, bigBattery);
+		categoryService.createCategory(eycotech, bigBattery);
+		categoryService.createCategory(geekvape, bigBattery);
+		categoryService.createCategory(gtrs, bigBattery);
+		categoryService.createCategory(hotcig, bigBattery);
+		categoryService.createCategory(hcigar, bigBattery);
+		categoryService.createCategory(hugoVapor, bigBattery);
+		categoryService.createCategory(sxminiYihi, bigBattery);
+		categoryService.createCategory(innokin, bigBattery);
+		categoryService.createCategory(ijoy, bigBattery);
+		categoryService.createCategory(lostVape, bigBattery);
+		categoryService.createCategory(justFog, bigBattery);
+		categoryService.createCategory(joyetech, bigBattery);
+		categoryService.createCategory(kangertech, bigBattery);
+		categoryService.createCategory(rev, bigBattery);
+		categoryService.createCategory(sigelei, bigBattery);
+		categoryService.createCategory(smok, bigBattery);
+		categoryService.createCategory(sofgod, bigBattery);
+		categoryService.createCategory(suorin, bigBattery);
+		categoryService.createCategory(tesla, bigBattery);
+		categoryService.createCategory(yosta, bigBattery);
+		categoryService.createCategory(yiloong, bigBattery);
+		categoryService.createCategory(yocan, bigBattery);
+		categoryService.createCategory(thinkvape, bigBattery);
+		categoryService.createCategory(ud, bigBattery);
+		categoryService.createCategory(vaoecige, bigBattery);
+		categoryService.createCategory(vandy, bigBattery);
+		categoryService.createCategory(vapeonly, bigBattery);
+		categoryService.createCategory(vaporesso, bigBattery);
+		categoryService.createCategory(vivakita, bigBattery);
+		categoryService.createCategory(vgid, bigBattery);
+		categoryService.createCategory(vzone, bigBattery);
+		categoryService.createCategory(wismec, bigBattery);
+		categoryService.createCategory(wotofo, bigBattery);
+
+
 		
 //		categoryService.createCategory(tv, tvEaudio);
 //		categoryService.createCategory(videoproiettori, tvEaudio);
