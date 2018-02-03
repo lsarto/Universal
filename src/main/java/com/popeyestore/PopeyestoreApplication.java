@@ -66,12 +66,7 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		
 		userService.createUser(user2, userRoles);
 		
-//		Type type1 = new Type();
-//		Type type2 = new Type();
-//		type1.setName("Type1");
-//		type2.setName("Type2");
-//		type1.setProducts(new ArrayList<Product>());
-//		type2.setProducts(new ArrayList<Product>());
+
 		Type kitCompleti = new Type();
 		kitCompleti.setName("Kit Completi");
 		kitCompleti.setProducts(new ArrayList<Product>());
@@ -89,10 +84,7 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		accessori.setProducts(new ArrayList<Product>());
 
 		
-//		Category category11 = new Category();
-//		Category category12 = new Category();
-//		Category category21 = new Category();
-//		Category category22 = new Category();
+
 		Category kitAramax = new Category();
 		Category kitAspire = new Category();
 		Category kitEleaf = new Category();
@@ -115,7 +107,7 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		Category kitSuorin = new Category();
 		Category kitWismec = new Category();
 		
-		Category armax = new Category();
+		Category aramax = new Category();
 		Category arctic = new Category();
 		Category aimidi = new Category();
 		Category aspire = new Category();
@@ -165,7 +157,7 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		Category caricabatterieHubUsb = new Category();
 		
 		Category advken = new Category();
-		Category aramax = new Category();
+		Category aramaxAtom = new Category();
 		Category arteryVapor = new Category();
 		Category aspireAtom = new Category();
 		Category blitz = new Category();
@@ -206,8 +198,23 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		Category wismecAtom = new Category();
 		Category wotofoAtom = new Category();
 		Category youde = new Category();
-
-
+		
+		
+		Category circuit = new Category();
+		Category adattatori = new Category();
+		Category cover = new Category();
+		Category handSpinnerFidget = new Category();
+		Category dripTip = new Category();
+		Category ecigTesterTip = new Category();
+		Category flaconiEsiringhe = new Category();
+		Category lavatriciUltrasuoni = new Category();
+		Category agitatoriMagnetici = new Category();
+		Category nanofixit = new Category();
+		Category stand = new Category();
+		Category cotton = new Category();
+		Category wire = new Category();
+		Category tools = new Category();
+		Category vapenut = new Category();
 
 
 		kitAramax.setName("Kit Aramax");
@@ -282,7 +289,7 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		caricabatterieHubUsb.setName("Caricabatterie HUB USB");
 
 		advken.setName("Advken");
-		aramax.setName("Aramax");
+		aramaxAtom.setName("Aramax");
 		arteryVapor.setName("Artery Vapor");
 		aspireAtom.setName("Aspire");
 		blitz.setName("Blitz");
@@ -324,27 +331,31 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		wotofoAtom.setName("Wotofo");
 		youde.setName("Youde");
 
-//		category11.setName("category11");
-//		category12.setName("category12");
-//		
-//		category21.setName("category21");
-//		category22.setName("category22");
 		
-//		typeService.createType(type1);
-//		typeService.createType(type2);
+		circuit.setName("Circuit V/W");
+		adattatori.setName("Adattatori");
+		cover.setName("Cover");
+		handSpinnerFidget.setName("Hand Spinner Fidget");
+		dripTip.setName("Drip Tip");
+		ecigTesterTip.setName("Ecig Tester Tip");
+		flaconiEsiringhe.setName("Flaconi e Siringhe");
+		lavatriciUltrasuoni.setName("Lavatrici Ultrasuoni");
+		agitatoriMagnetici.setName("Agitatori Magnetici");
+		nanofixit.setName("Nanofixit");
+		stand.setName("Stand");
+		cotton.setName("Cotton");
+		wire.setName("Wire");
+		tools.setName("Tools");
+		vapenut.setName("Vapenut");
+		
+	
 		typeService.createType(kitCompleti);
 		typeService.createType(bigBattery);
 		typeService.createType(batterie);
 		typeService.createType(atomANDcoil);
 		typeService.createType(accessori);
 
-
-
 		
-//		categoryService.createCategory(category11, type1);
-//		categoryService.createCategory(category12, type1);
-//		categoryService.createCategory(category21, type2);
-//		categoryService.createCategory(category22, type2);
 		categoryService.createCategory(kitAramax, kitCompleti);
 		categoryService.createCategory(kitAspire, kitCompleti);
 		categoryService.createCategory(kitEleaf, kitCompleti);
@@ -420,7 +431,7 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		
 		
 		categoryService.createCategory(advken, atomANDcoil);
-		categoryService.createCategory(aramax, atomANDcoil);
+		categoryService.createCategory(aramaxAtom, atomANDcoil);
 		categoryService.createCategory(arteryVapor, atomANDcoil);
 		categoryService.createCategory(aspireAtom, atomANDcoil);
 		categoryService.createCategory(blitz, atomANDcoil);
@@ -462,19 +473,21 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		categoryService.createCategory(wotofoAtom, atomANDcoil);
 
 
-		
-//		categoryService.createCategory(tv, tvEaudio);
-//		categoryService.createCategory(videoproiettori, tvEaudio);
-//		categoryService.createCategory(accessoriTV, tvEaudio);
-//		categoryService.createCategory(decoder, tvEaudio);
-//		categoryService.createCategory(macchineFotografiche, fotografiaEauto);
-//		categoryService.createCategory(obiettiviReflex, fotografiaEauto);
-//		categoryService.createCategory(obiettiviMirrorless, fotografiaEauto);
-//		categoryService.createCategory(navigazione, fotografiaEauto);
-//		categoryService.createCategory(cottura, elettrodomestici);
-//		categoryService.createCategory(frigoriferi, elettrodomestici);
-//		categoryService.createCategory(lavastoviglie, elettrodomestici);
-//		categoryService.createCategory(lavatrici, elettrodomestici);
+		categoryService.createCategory(circuit, accessori);
+		categoryService.createCategory(adattatori, accessori);
+		categoryService.createCategory(cover, accessori);
+		categoryService.createCategory(handSpinnerFidget, accessori);
+		categoryService.createCategory(dripTip, accessori);
+		categoryService.createCategory(ecigTesterTip, accessori);
+		categoryService.createCategory(flaconiEsiringhe, accessori);
+		categoryService.createCategory(lavatriciUltrasuoni, accessori);
+		categoryService.createCategory(agitatoriMagnetici, accessori);
+		categoryService.createCategory(nanofixit, accessori);
+		categoryService.createCategory(stand, accessori);
+		categoryService.createCategory(cotton, accessori);
+		categoryService.createCategory(wire, accessori);
+		categoryService.createCategory(tools, accessori);
+		categoryService.createCategory(vapenut, accessori);
 
 	}
 }
