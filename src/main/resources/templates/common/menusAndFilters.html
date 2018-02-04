@@ -15,18 +15,21 @@
 			<div class="panel-body">
 				<ul th:each="type: ${session.types}"
 					class="nav nav-pills nav-stacked category-menu">
-					<li class="active"><a href="#" th:text="${type.name}"></a>
-						<ul>
-							<li th:classappend="${activeCategory}=='all'+${type.id}? 'active btn-default'" 
+					<li class="active"><a href="javascript:void(0);"
+						th:text="'+ '+${type.name}"
+						th:attr="data-toggle='collapse', data-target='#collapse'+${type.id}, aria-controls='collapse'+${type.id}">
+					</a>
+						<ul class="collapse" th:id="'collapse'+${type.id}">
+							<li
+								th:classappend="${activeCategory}=='all'+${type.id}? 'active btn-default'"
 								th:id="'all'+${type.id}+'-list-item'"><a
-								th:href="@{/searchByCategory(category='all'+${type.id})}" 
-								class="category-ajax" 
-								th:id="'all'+${type.id}">All</a></li>
-							<li th:each="category: ${type.categories}" th:id="${category.id}+'-category-list-item'"
+								th:href="@{/searchByCategory(category='all'+${type.id})}"
+								class="category-ajax" th:id="'all'+${type.id}">All</a></li>
+							<li th:each="category: ${type.categories}"
+								th:id="${category.id}+'-category-list-item'"
 								th:classappend="(${activeCategory}==${category.id})? 'active btn-default'">
 								<a th:href="@{/searchByCategory(category=${category.id})}"
-								class="category-ajax"
-								th:id="${category.id}+'-category'"
+								class="category-ajax" th:id="${category.id}+'-category'"
 								th:inline="text">[[${category.name}]] <span
 									class="badge pull-right" th:text="${category.qty}"></span></a>
 							</li>
