@@ -68,8 +68,8 @@
 
 										<div class="sizes">
 
-											<h3 th:if="*{product.inStockNumber&lt;=0}"
-												style="color: red">Non Disponibile</h3>
+											<h3 th:if="*{product.inStockNumber&lt;=0}" style="color: red">Non
+												Disponibile</h3>
 
 											<h3 th:if="*{product.inStockNumber!=0}">Quantit&agrave;
 												disponibile</h3>
@@ -83,11 +83,14 @@
 											<span th:if="${product.ourPrice}!=0.0"
 												th:text="${#numbers.formatDecimal(product.ourPrice,1,2)}"></span>
 											<span th:if="${product.ourPrice}==0.0"
-												th:text="${#numbers.formatDecimal(product.listPrice,1,2)}"></span> €
+												th:text="${#numbers.formatDecimal(product.listPrice,1,2)}"></span>
+											€
 										</p>
 
 										<p class="text-center">
-											<button type="submit" th:classappend="*{product.inStockNumber&lt;=0}? 'disabled'" class="btn btn-template-main">
+											<button type="submit"
+												th:classappend="*{product.inStockNumber&lt;=0}? 'disabled'"
+												class="btn btn-template-main">
 												<i class="fa fa-shopping-cart"></i> Aggiungi al carrello
 											</button>
 										</p>
@@ -128,13 +131,15 @@
 
 						<div class="box" id="details">
 							<p>
-							<h4 th:if="${product.description!=null and product.description!=''}">Descrizione Prodotto</h4>
+							<h4
+								th:if="${product.description!=null and product.description!=''}">Descrizione
+								Prodotto</h4>
 							<p th:utext="${product.description}"></p>
 							<div th:each="attribute: ${product.productAttributes}">
 								<h4 th:text="${attribute.name}"></h4>
 								<p th:utext="${attribute.value}"></p>
 							</div>
-						</div>					
+						</div>
 					</div>
 					<!-- /.col-md-9 -->
 
@@ -156,19 +161,21 @@
 							</div>
 
 							<div class="panel-body">
-								<ul th:each="type: ${session.types}" class="nav nav-pills nav-stacked category-menu">
-									<li class="active"><a href="#" th:text="${type.name}"></a>
-										<ul>
+								<ul th:each="type: ${session.types}"
+									class="nav nav-pills nav-stacked category-menu">
+									<li class="active"><a href="javascript:void(0);"
+										th:text="'+ '+${type.name}"
+										th:attr="data-toggle='collapse', data-target='#collapse'+${type.id}, aria-controls='collapse'+${type.id}"></a>
+										<ul class="collapse" th:id="'collapse'+${type.id}">
 											<li th:classappend="${activeAll}? 'active btn-default'"><a
 												th:href="@{/searchByCategory(category='all'+${type.id})}">All</a></li>
-											<li th:each="category: ${type.categories}" 
+											<li th:each="category: ${type.categories}"
 												th:classappend="(${activeCategory}==${category.id})? 'active btn-default'">
-												<a th:href="@{/searchByCategory(category=${category.id})}" 
-													th:inline="text">[[${category.name}]]
-													<span class="badge pull-right" th:text="${category.qty}"></span></a>
+												<a th:href="@{/searchByCategory(category=${category.id})}"
+												th:inline="text">[[${category.name}]] <span
+													class="badge pull-right" th:text="${category.qty}"></span></a>
 											</li>
-										</ul>
-									</li>
+										</ul></li>
 								</ul>
 							</div>
 						</div>
@@ -188,12 +195,11 @@
 		</div>
 		<!-- /#content -->
 
-<!-- *** FOOTER ***
+		<!-- *** FOOTER ***
 _________________________________________________________ -->
 
-        <div th:replace="common/footer :: footer">
-        </div>
-<!-- *** FOOTER END *** -->
+		<div th:replace="common/footer :: footer"></div>
+		<!-- *** FOOTER END *** -->
 
 	</div>
 	<!-- /#all -->
