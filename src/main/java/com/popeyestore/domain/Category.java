@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -25,6 +26,12 @@ public class Category {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Type type;
+	
+	@OneToMany(mappedBy="owner_category", cascade=CascadeType.ALL)
+	private List<Category> categories;
+	
+	@ManyToOne
+	private Category owner_category;
 
 	public Long getId() {
 		return id;
@@ -64,6 +71,22 @@ public class Category {
 
 	public void setType(Type type) {
 		this.type = type;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	public Category getOwnerCategory() {
+		return owner_category;
+	}
+
+	public void setOwnerCategory(Category ownerCategory) {
+		this.owner_category = ownerCategory;
 	}
 	
 	
