@@ -1,7 +1,9 @@
 package com.popeyestore.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.popeyestore.domain.Product;
 import com.popeyestore.domain.Type;
+import com.popeyestore.adminportal.utility.Brand;
 import com.popeyestore.domain.Category;
 import com.popeyestore.domain.User;
 import com.popeyestore.service.ProductService;
@@ -159,6 +162,50 @@ public class SearchController {
 		
 		List<Product> productList = productService.blurrySearch(keyword);
 
+		if (productList.isEmpty()) {
+			model.addAttribute("emptyList", true);
+			return "shop-category";
+		}
+		
+		model.addAttribute("productList", productList);
+
+		return "shop-category";
+	}
+	
+	@RequestMapping("/searchByBrand")
+	public String searchByBrand(@ModelAttribute("brand") Brand brand, Principal principal, Model model) {
+		if (principal != null) {
+			String username = principal.getName();
+			User user = userService.findByUsername(username);
+			model.addAttribute("user", user);
+		}
+		Boolean wismec = brand.getWismec();
+		Boolean drops = brand.getDrops();
+		Boolean ijoy = brand.getIjoy();
+		Boolean geekVape = brand.getGeekVape();
+		List<Product> productList = new ArrayList<Product>();
+
+		if(wismec!=null && wismec.booleanValue()==true){
+			List<Product> wismecProducts = productService.blurrySearch("Wismec");
+			model.addAttribute("wismec", true);
+			productList.addAll(wismecProducts);
+		}
+		if(drops!=null && drops.booleanValue()==true){
+			List<Product> dropsProducts = productService.blurrySearch("Drops");
+			model.addAttribute("drops", true);
+			productList.addAll(dropsProducts);
+		}
+		if(ijoy!=null && ijoy.booleanValue()==true){
+			List<Product> ijoyProducts = productService.blurrySearch("Ijoy");
+			model.addAttribute("ijoy", true);
+			productList.addAll(ijoyProducts);
+		}
+		if(geekVape!=null && geekVape.booleanValue()==true){
+			List<Product> geekVapeProducts = productService.blurrySearch("Geek Vape");
+			model.addAttribute("geekVape", true);
+			productList.addAll(geekVapeProducts);
+		}
+		
 		if (productList.isEmpty()) {
 			model.addAttribute("emptyList", true);
 			return "shop-category";

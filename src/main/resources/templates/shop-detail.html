@@ -179,6 +179,45 @@
 								</ul>
 							</div>
 						</div>
+						<div class="panel panel-default sidebar-menu">
+
+							<div class="panel-heading">
+								<h3 class="panel-title">Brands</h3>
+								<a class="btn btn-xs btn-danger pull-right" href="javascript:void(0);" id="clear"><i
+									class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
+							</div>
+
+							<div class="panel-body">
+
+								<form th:action="@{/searchByBrand}" method="post">
+									<div class="form-group">
+										<div class="checkbox">
+											<label> <input class="checkboxBrand" type="checkbox" name="wismec">Wismec
+											</label>
+										</div>
+										<div class="checkbox">
+											<label> <input class="checkboxBrand" type="checkbox" name="drops">Drops
+											</label>
+										</div>
+										<div class="checkbox">
+											<label> <input class="checkboxBrand" type="checkbox" name="ijoy">Ijoy
+											</label>
+										</div>
+										<div class="checkbox">
+											<label> <input class="checkboxBrand" type="checkbox" name="geekVape">Geek
+												Vape
+											</label>
+										</div>
+									</div>
+
+									<button class="btn btn-default btn-sm btn-template-main"
+										type="submit">
+										<i class="fa fa-pencil"></i> Apply
+									</button>
+								</form>
+
+							</div>
+						</div>
 
 						<!-- *** MENUS AND FILTERS END *** -->
 

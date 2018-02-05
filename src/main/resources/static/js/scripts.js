@@ -78,6 +78,10 @@ $(document).ready(function() {
 	$("#txtNewPassword").keyup(checkPasswordMatch);
 	$("#email-login").keyup(checkEmailFormat); // validazione email in
 	// customer-register.html
+	
+	$("#clear").click(function() {
+		$(".checkboxBrand").prop("checked",false);
+	})
 });
 
 /**
