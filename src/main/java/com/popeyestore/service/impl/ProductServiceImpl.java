@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.popeyestore.domain.Category;
 import com.popeyestore.domain.Product;
 import com.popeyestore.domain.Type;
 import com.popeyestore.repository.ProductRepository;
@@ -68,5 +69,15 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> findLatest() {
 		return productRepository.findByLatestTrue();
+	}
+
+	@Override
+	public List<Product> findByCategory(Category category) {
+		return productRepository.findByCategory(category);
+	}
+
+	@Override
+	public List<Product> findByPriceBetween(double minPrice, double maxPrice) {
+		return productRepository.findByListPriceBetween(minPrice, maxPrice);
 	}
 }

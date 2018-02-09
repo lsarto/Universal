@@ -79,8 +79,11 @@ $(document).ready(function() {
 	$("#email-login").keyup(checkEmailFormat); // validazione email in
 	// customer-register.html
 	
-	$("#clear").click(function() {
+	$("#clearBrand").click(function() {
 		$(".checkboxBrand").prop("checked",false);
+	})
+	$("#clearPrice").click(function() {
+		$(".checkboxPrice").prop("checked",false);
 	})
 });
 

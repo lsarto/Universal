@@ -154,70 +154,7 @@
 						<!-- *** MENUS AND FILTERS ***
  _________________________________________________________ -->
 
-						<div class="panel panel-default sidebar-menu">
-
-							<div class="panel-heading">
-								<h3 class="panel-title">Filtra</h3>
-							</div>
-
-							<div class="panel-body">
-								<ul th:each="type: ${session.types}"
-									class="nav nav-pills nav-stacked category-menu">
-									<li class="active"><a href="javascript:void(0);"
-										th:text="'+ '+${type.name}"
-										th:attr="data-toggle='collapse', data-target='#collapse'+${type.id}, aria-controls='collapse'+${type.id}"></a>
-										<ul class="collapse" th:id="'collapse'+${type.id}">
-											<li th:classappend="${activeAll}? 'active btn-default'"><a
-												th:href="@{/searchByCategory(category='all'+${type.id})}">All</a></li>
-											<li th:each="category: ${type.categories}"
-												th:classappend="(${activeCategory}==${category.id})? 'active btn-default'">
-												<a th:href="@{/searchByCategory(category=${category.id})}"
-												th:inline="text">[[${category.name}]] <span
-													class="badge pull-right" th:text="${category.qty}"></span></a>
-											</li>
-										</ul></li>
-								</ul>
-							</div>
-						</div>
-						<div class="panel panel-default sidebar-menu">
-
-							<div class="panel-heading">
-								<h3 class="panel-title">Brands</h3>
-								<a class="btn btn-xs btn-danger pull-right" href="javascript:void(0);" id="clear"><i
-									class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
-							</div>
-
-							<div class="panel-body">
-
-								<form th:action="@{/searchByBrand}" method="post">
-									<div class="form-group">
-										<div class="checkbox">
-											<label> <input class="checkboxBrand" type="checkbox" name="wismec">Wismec
-											</label>
-										</div>
-										<div class="checkbox">
-											<label> <input class="checkboxBrand" type="checkbox" name="drops">Drops
-											</label>
-										</div>
-										<div class="checkbox">
-											<label> <input class="checkboxBrand" type="checkbox" name="ijoy">Ijoy
-											</label>
-										</div>
-										<div class="checkbox">
-											<label> <input class="checkboxBrand" type="checkbox" name="geekVape">Geek
-												Vape
-											</label>
-										</div>
-									</div>
-
-									<button class="btn btn-default btn-sm btn-template-main"
-										type="submit">
-										<i class="fa fa-pencil"></i> Apply
-									</button>
-								</form>
-
-							</div>
-						</div>
+					<div th:replace="common/menusAndFilters :: menus&filters"></div>
 
 						<!-- *** MENUS AND FILTERS END *** -->
 

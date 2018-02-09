@@ -3,10 +3,13 @@
 	xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head th:replace="common/header :: common-header" />
+<meta charset="ISO-8859-1">
 
 <body>
 	<div th:fragment="menus&filters">
-		<div class="panel panel-default sidebar-menu">
+
+		<!-- If want to use ajax call -->
+		<!-- <div class="panel panel-default sidebar-menu">
 
 			<div class="panel-heading">
 				<h3 class="panel-title">Filtra</h3>
@@ -36,12 +39,39 @@
 						</ul></li>
 				</ul>
 			</div>
+		</div> -->
+		<div class="panel panel-default sidebar-menu">
+
+			<div class="panel-heading">
+				<h3 class="panel-title">Filtra</h3>
+			</div>
+
+			<div class="panel-body">
+				<ul th:each="type: ${session.types}"
+					class="nav nav-pills nav-stacked category-menu">
+					<li class="active"><a href="javascript:void(0);"
+						th:text="'+ '+${type.name}"
+						th:attr="data-toggle='collapse', data-target='#collapse'+${type.id}, aria-controls='collapse'+${type.id}"></a>
+						<ul class="collapse" th:classappend="${typeFound==type.id} ? in"
+							th:id="'collapse'+${type.id}">
+							<li th:classappend="${activeAll}? 'active btn-default'"><a
+								th:href="@{/searchByCategory(category='all'+${type.id})}">All</a></li>
+							<li th:each="category: ${type.categories}"
+								th:classappend="(${activeCategory}==${category.id})? 'active btn-default'">
+								<a th:href="@{/searchByCategory(category=${category.id})}"
+								th:inline="text">[[${category.name}]] <span
+									class="badge pull-right" th:text="${category.qty}"></span></a>
+							</li>
+						</ul></li>
+				</ul>
+			</div>
 		</div>
 		<div class="panel panel-default sidebar-menu">
 
 			<div class="panel-heading">
 				<h3 class="panel-title">Brands</h3>
-				<a class="btn btn-xs btn-danger pull-right" href="javascript:void(0);" id="clear"><i
+				<a class="btn btn-xs btn-danger pull-right"
+					href="javascript:void(0);" id="clearBrand"><i
 					class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
 			</div>
 
@@ -49,31 +79,99 @@
 
 				<form th:action="@{/searchByBrand}" method="post">
 					<div class="form-group">
+						<input type="hidden" name="price0to25"
+							th:value="${price0to25} ? ${price0to25}" /> 
+						<input type="hidden"
+							name="price25to50" th:value="${price25to50} ? ${price25to50}" /> 
+						<input
+							type="hidden" name="price50to75" th:value="${price50to75} ? ${price50to75}" />
+						<input
+							type="hidden" name="price75to100" th:value="${price75to100} ? ${price75to100}" /> 
+						<input type="hidden" name="price100up"
+							th:value="${price100up} ? ${price100up}" />
 						<div class="checkbox">
-							<label> <input class="checkboxBrand" type="checkbox" name="wismec"
-								th:checked="${wismec}">Wismec
+							<label> <input class="checkboxBrand" type="checkbox"
+								name="wismec" th:checked="${wismec}">Wismec
 							</label>
 						</div>
 						<div class="checkbox">
-							<label> <input class="checkboxBrand" type="checkbox" name="drops"
-								th:checked="${drops}">Drops
+							<label> <input class="checkboxBrand" type="checkbox"
+								name="drops" th:checked="${drops}">Drops
 							</label>
 						</div>
 						<div class="checkbox">
-							<label> <input class="checkboxBrand" type="checkbox" name="ijoy"
-								th:checked="${ijoy}">Ijoy
+							<label> <input class="checkboxBrand" type="checkbox"
+								name="ijoy" th:checked="${ijoy}">Ijoy
 							</label>
 						</div>
 						<div class="checkbox">
-							<label> <input class="checkboxBrand" type="checkbox" name="geekVape"
-								th:checked="${geekVape}">Geek Vape
+							<label> <input class="checkboxBrand" type="checkbox"
+								name="geekVape" th:checked="${geekVape}">Geek Vape
 							</label>
 						</div>
 					</div>
 
 					<button class="btn btn-default btn-sm btn-template-main"
 						type="submit">
-						<i class="fa fa-pencil"></i> Apply
+						<i class="fa fa-pencil"></i> Applica
+					</button>
+				</form>
+
+			</div>
+		</div>
+		<div class="panel panel-default sidebar-menu">
+
+			<div class="panel-heading">
+				<h3 class="panel-title">Prezzo</h3>
+				<a class="btn btn-xs btn-danger pull-right"
+					href="javascript:void(0);" id="clearPrice"><i
+					class="fa fa-times-circle"></i> <span class="hidden-sm">Clear</span></a>
+			</div>
+
+			<div class="panel-body">
+
+				<form th:action="@{/searchByPrice}" method="post">
+					<input type="hidden" name="activeCategory"
+						th:value="${activeCategory!=null} ? ${activeCategory} : '-1'" />
+					<input type="hidden" name="wismec" th:value="${wismec} ? ${wismec}" />
+					<input type="hidden" name="drops" th:value="${drops} ? ${drops}" />
+					<input type="hidden" name="ijoy" th:value="${ijoy} ? ${ijoy}" /> 
+					<input type="hidden" name="geekVape" th:value="${geekVape} ? ${geekVape}" />
+					<div class="form-group">
+						<div class="checkbox">
+							<label> <input class="checkboxPrice" type="checkbox"
+								name="price0to25" th:checked="${price0to25}">tra 0-25 €
+							</label>
+						</div>
+						<div class="checkbox">
+							<label> <input class="checkboxPrice" type="checkbox"
+								name="price25to50" th:checked="${price25to50}">tra 25-50
+								€
+							</label>
+						</div>
+						<div class="checkbox">
+							<label> <input class="checkboxPrice" type="checkbox"
+								name="price50to75" th:checked="${price50to75}">tra 50-75
+								€
+							</label>
+						</div>
+						<div class="checkbox">
+							<label> <input class="checkboxPrice" type="checkbox"
+								name="price75to100" th:checked="${price75to100}">tra
+								75-100 €
+							</label>
+						</div>
+						<div class="checkbox">
+							<label> <input class="checkboxPrice" type="checkbox"
+								name="price100up" th:checked="${price100up}">da 100 € in
+								poi
+							</label>
+						</div>
+					</div>
+
+					<button class="btn btn-default btn-sm btn-template-main"
+						type="submit">
+						<i class="fa fa-pencil"></i> Applica
 					</button>
 				</form>
 
