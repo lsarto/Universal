@@ -44,6 +44,27 @@ public class CategoryServiceImpl implements CategoryService{
 		
 		return localCategory;
 	}
+	
+	@Override
+	public Category createSubcategory(Category ownerCategory, Category subcategory, Type type) {
+		Category localCategoryOwner = (Category) categoryRepository.findByName(ownerCategory.getName());
+		Category localSubcategory = null;
+		
+		if(localCategoryOwner == null){
+			LOG.info("category owner {} not exists. Nothing will be done.", ownerCategory.getName());
+		} else {
+			localSubcategory = (Category) categoryRepository.findByName(subcategory.getName());
+			if(localSubcategory!=null){
+				LOG.info("subcategory {} already exists. Nothing will be done.", subcategory.getName());
+			} else {
+				subcategory.setQty(0);
+				subcategory.setType(type);
+				localSubcategory = categoryRepository.save(subcategory);
+			}
+		}
+		
+		return localSubcategory;
+	}
 
 	@Override
 	public Category save(Category category) {

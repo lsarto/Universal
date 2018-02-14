@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Category {
 	
@@ -22,15 +24,19 @@ public class Category {
 	private Integer qty;
 	
 	@OneToMany(mappedBy="category", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<Product> products;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
+	@JsonIgnore
 	private Type type;
 	
 	@OneToMany(mappedBy="owner_category", cascade=CascadeType.ALL)
+	@JsonIgnore
 	private List<Category> categories;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Category owner_category;
 
 	public Long getId() {

@@ -16,8 +16,8 @@
 						Nuovo prodotto<span style="font-size: small"> * Campo obbligatorio</span>
 					</legend>
 					
-					<input type="hidden" name="product.type.name"
-							th:value="${dataTransfer.product.type.name}"/> 
+					<input type="hidden" name="product.type.name" id="typeName"
+							th:value="${dataTransfer.product.type.name}"/>
 
 					<!-- name -->
 					<div class="form-group">
@@ -43,7 +43,20 @@
 								th:value="${categorySel.name}"
 								th:text="${categorySel.name}"></option>
 							</select>
-							<span class="help-block">Selezionare la categoria del prodotto</span>
+							<span class="help-block">Selezionare la Categoria del prodotto</span>
+						</div>
+					</div>  
+					
+					<!-- subcategory -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="category">
+							Sotto-Categoria</label>
+						<div class="col-md-8">
+							<select id="subcategory" name="product.subcategory.name"
+								class="form-control">
+								<option value="" selected="selected" disabled="disabled">Per favore selezionare un'opzione...</option>
+							</select>
+							<span class="help-block">Selezionare la Sotto-Categoria della Categoria scelta</span>
 						</div>
 					</div>  
 					
@@ -74,7 +87,7 @@
 					<div class="form-group">
 						<div class="col-md-2"></div>
 						<div class="col-md-8">
-							<button type="button" id="btn-attr" class="btn btn-primary glyphicon glyphicon-plus-sign"> Aggiungi attributo</button>
+							<button type="button" id="btn-attr" class="btn btn-primary glyphicon glyphicon-plus-sign"> Aggiungi Attributo</button>
 						</div>
 					</div>
 					<br/>

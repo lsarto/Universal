@@ -177,3 +177,36 @@ $(document).ready(function(){
         i++;
     });
 });
+
+//chiamata ajax con il metodo $.post di jquery per avere le sottocategorie relative alla
+//categoria selezionata
+$(document).ready(function(){
+	$("#category").change(function() {
+		$.post("categoriesByType", {categoryName : $('#category option:selected').val()}, function(data, status){
+			if (status == 'success') {
+				//pulisci le sottocategorie caricate in precedenza prima di
+				//aggiungere quelle della categoria selezionata
+		        $('#subcategory').find('option')
+			    .remove()
+			    .end().append('<option selected="selected" disabled="disabled">' + 
+			    		'Per favore selezionare un\'opzione...</option>');
+		        var categoryList = JSON.parse(data);
+		        for(i in categoryList){
+			        $('#subcategory').append($('<option>', {
+					    value: categoryList[i].name,
+					    text: categoryList[i].name
+					}));
+		        }
+	        }
+	    });
+	});
+});
+
+//se vi è un errore nella chiamata ajax per ottenere le sottocategorie
+//elimina quelle caricate in precedenza
+$(document).ajaxError(function(){
+	 $('#subcategory').find('option')
+	    .remove()
+	    .end().append('<option selected="selected" disabled="disabled">' + 
+	    		'Per favore selezionare un\'opzione...</option>');
+});

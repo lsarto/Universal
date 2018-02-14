@@ -12,6 +12,8 @@ public interface CategoryService {
 	Category findByName(String name);
 
 	Category createCategory(Category category, Type type);
+	
+	Category createSubcategory(Category ownerCategory, Category subcategory, Type type);
 
 	Category save(Category category);
 
