@@ -483,6 +483,12 @@ public class ProductController {
 			Category category = product.getCategory();
 			category.setQty(category.getQty()-1);
 			categoryService.save(category);
+			List<ProductToCategory> productToCategoryList = product.getProductToCategoryList();
+			if(productToCategoryList!=null && productToCategoryList.size()==1){
+				Category subcategory = productToCategoryList.get(0).getCategory();
+				subcategory.setQty(subcategory.getQty()-1);
+				categoryService.save(subcategory);
+			}
         } catch (Exception e){
         	e.printStackTrace();
 			return new Boolean(false);

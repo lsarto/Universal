@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.popeyestore.adminportal.service.AdminProductService;
 import com.popeyestore.domain.Category;
 import com.popeyestore.domain.Product;
+import com.popeyestore.domain.ProductToCategory;
 import com.popeyestore.service.CategoryService;
 
 
@@ -41,6 +42,12 @@ public class ResourceController {
 				Category category = product.getCategory();
 				category.setQty(category.getQty()-1);
 				categoryService.save(category);
+				List<ProductToCategory> productToCategoryList = product.getProductToCategoryList();
+				if(productToCategoryList!=null && productToCategoryList.size()==1){
+					Category subcategory = productToCategoryList.get(0).getCategory();
+					subcategory.setQty(subcategory.getQty()-1);
+					categoryService.save(subcategory);
+				}
 			} catch(Exception e) {
 				e.printStackTrace();
 				return false;
