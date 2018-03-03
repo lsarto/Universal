@@ -20,100 +20,101 @@
 <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" />
 
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
+	href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
 <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-<script>tinymce.init({ selector:'textarea' });</script>
+<script>
+	tinymce.init({
+		selector : 'textarea'
+	});
+</script>
 
 <link rel="icon" href="/image/applie-touch-icon.png" />
 </head>
 
 <body>
 	<div th:fragment="navbar-admin">
-	<style>.navbar-default {
-        background-color: #a32222;
-        border-color: #293872;
-    }
+		<style>
+.navbar-default {
+	background-color: #a32222;
+	border-color: #293872;
+}
 
-    .navbar-default .navbar-brand {
-        color: #ecf0f1;
-    }
+.navbar-default .navbar-brand {
+	color: #ecf0f1;
+}
 
-    .navbar-default .navbar-brand:hover,
-    .navbar-default .navbar-brand:focus {
-        color: #f8f9f8;
-    }
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus
+	{
+	color: #f8f9f8;
+}
 
-    .navbar-default .navbar-text {
-        color: #ecf0f1;
-    }
+.navbar-default .navbar-text {
+	color: #ecf0f1;
+}
 
-    .navbar-default .navbar-nav > li > a {
-        color: #ecf0f1;
-    }
+.navbar-default .navbar-nav>li>a {
+	color: #ecf0f1;
+}
 
-    .navbar-default .navbar-nav > li > a:hover,
-    .navbar-default .navbar-nav > li > a:focus {
-        color: #f8f9f8;
-    }
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus
+	{
+	color: #f8f9f8;
+}
 
-    .navbar-default .navbar-nav > .active > a,
-    .navbar-default .navbar-nav > .active > a:hover,
-    .navbar-default .navbar-nav > .active > a:focus {
-        color: #f8f9f8;
-        background-color: #293872;
-    }
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover,
+	.navbar-default .navbar-nav>.active>a:focus {
+	color: #f8f9f8;
+	background-color: #293872;
+}
 
-    .navbar-default .navbar-nav > .open > a,
-    .navbar-default .navbar-nav > .open > a:hover,
-    .navbar-default .navbar-nav > .open > a:focus {
-        color: #f8f9f8;
-        background-color: #293872;
-    }
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover,
+	.navbar-default .navbar-nav>.open>a:focus {
+	color: #f8f9f8;
+	background-color: #293872;
+}
 
-    .navbar-default .navbar-toggle {
-        border-color: #293872;
-    }
+.navbar-default .navbar-toggle {
+	border-color: #293872;
+}
 
-    .navbar-default .navbar-toggle:hover,
-    .navbar-default .navbar-toggle:focus {
-        background-color: #293872;
-    }
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus
+	{
+	background-color: #293872;
+}
 
-    .navbar-default .navbar-toggle .icon-bar {
-        background-color: #ecf0f1;
-    }
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #ecf0f1;
+}
 
-    .navbar-default .navbar-collapse,
-    .navbar-default .navbar-form {
-        border-color: #ecf0f1;
-    }
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+	border-color: #ecf0f1;
+}
 
-    .navbar-default .navbar-link {
-        color: #ecf0f1;
-    }
+.navbar-default .navbar-link {
+	color: #ecf0f1;
+}
 
-    .navbar-default .navbar-link:hover {
-        color: #f8f9f8;
-    }
+.navbar-default .navbar-link:hover {
+	color: #f8f9f8;
+}
 
-    @media (max-width: 767px) {
-        .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-            color: #ecf0f1;
-        }
-
-        .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-        .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-            color: #f8f9f8;
-        }
-
-        .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
-        .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
-        .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-            color: #f8f9f8;
-            background-color: #293872;
-        }
-    }</style>
+@media ( max-width : 767px) {
+	.navbar-default .navbar-nav .open .dropdown-menu>li>a {
+		color: #ecf0f1;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu>li>a:hover,
+		.navbar-default .navbar-nav .open .dropdown-menu>li>a:focus {
+		color: #f8f9f8;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu>.active>a,
+		.navbar-default .navbar-nav .open .dropdown-menu>.active>a:hover,
+		.navbar-default .navbar-nav .open .dropdown-menu>.active>a:focus {
+		color: #f8f9f8;
+		background-color: #293872;
+	}
+}
+</style>
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
@@ -123,7 +124,8 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" th:href="@{/adminportal/home}">Admin Portal</a>
+					<a class="navbar-brand" th:href="@{/adminportal/home}">Admin
+						Portal</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -133,11 +135,24 @@
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">Prodotto <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li th:each="type : ${session.types}" th:value="${type.getName()}">
-								<a th:href="@{/adminportal/product/add(typeSelected=${type.getName()})}">Aggiungi new
-										<span th:text="${type.getName()}"></span></a></li>
+								<li th:each="type : ${session.types}"
+									th:value="${type.getName()}"><a
+									th:href="@{/adminportal/product/add(typeSelected=${type.getName()})}">Aggiungi
+										prodotto in <span th:text="${type.getName()}"></span>
+								</a></li>
 								<li><a th:href="@{/adminportal/product/productList}">Visualizza
 										lista prodotti</a></li>
+							</ul></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">Categoria <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li th:each="type : ${session.types}"
+									th:value="${type.getName()}"><a
+									th:href="@{/adminportal/category/add(typeSelected=${type.getName()})}">Aggiungi
+										categoria in <span th:text="${type.getName()}"></span></a></li>
+								<li><a th:href="@{/adminportal/category/categoryList}">Visualizza
+										lista categorie</a></li>
 							</ul></li>
 					</ul>
 
@@ -152,7 +167,8 @@
 	</div>
 
 	<div th:fragment="admin-body-bottom-scripts">
-		<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+		<script
+			src="https://code.jquery.com/jquery-3.3.1.js"></script>
 		<script th:src="@{/js/bootstrap.min.js}"></script>
 		<script th:src="@{/js/bootbox.min.js}"></script>
 		<script th:src="@{/js/admin-scripts.js}"></script>

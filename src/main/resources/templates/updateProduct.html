@@ -52,6 +52,24 @@
 								prodotto</span>
 						</div>
 					</div>
+					
+					<!-- subcategory -->
+					<div class="form-group">
+						<label class="col-md-2 control-label" for="category">
+							Sotto-Categoria</label>
+						<div class="col-md-8">
+							<select id="subcategory" th:value="${#lists.size(dataTransfer.product.productToCategoryList)}? ${dataTransfer.product.productToCategoryList[0].category.name} : ''" 
+								name="product.productToCategoryList[0].category.name" class="form-control">
+								<option value="" selected="selected">Nessuna Sotto-Categoria</option>
+								<option th:if="${#lists.size(dataTransfer.product.productToCategoryList)}" th:selected="${dataTransfer.product.productToCategoryList[0].category.name}!=''"
+									th:value="${dataTransfer.product.productToCategoryList[0].category.name}" th:text="${dataTransfer.product.productToCategoryList[0].category.name}"></option>
+								<option th:each="subcategorySel,subcategoryStat : ${dataTransfer.product.category.categories}"
+									th:if="${#lists.size(dataTransfer.product.productToCategoryList)!=0 and dataTransfer.product.productToCategoryList[0].category.id!=subcategorySel.id}"
+									th:value="${subcategorySel.name}" th:text="${subcategorySel.name}"></option>
+							</select>
+							<span class="help-block">Selezionare la Sotto-Categoria della Categoria scelta</span>
+						</div>
+					</div>  
 
 					<!-- attributes contained -->
 					<div th:each="attribute,attributeStat: *{dataTransfer.product.productAttributes}"
@@ -66,7 +84,7 @@
 								class="form-control" placeholder="Nome Attributo" /> 
 							<textarea th:field="*{dataTransfer.product.productAttributes[__${attributeStat.index}__].value}" rows="5"
 								class="form-control" 
-								placeholder="Valore Attrivuto" />
+								placeholder="Valore Attrivuto"></textarea>
 							<span class="help-block">Valore Attributo</span>
 							<span class="help-block"> Aggiungi (opzionalmente) un nome e
 								una descrizione di una caratteristica del prodotto</span>
@@ -110,7 +128,7 @@
 							Listino</label>
 						<div class="col-md-8">
 							<div class="input-group">
-								<span class="input-group-addon">€</span> <input
+								<span class="input-group-addon">&euro;</span> <input
 									th:value="${dataTransfer.product.listPrice}" type="number"
 									step="0.01" name="product.listPrice" class="form-control" min="0"
 									id="listPrice" placeholder="List Price" />
@@ -125,7 +143,7 @@
 							Prezzo</label>
 						<div class="col-md-8">
 							<div class="input-group">
-								<span class="input-group-addon">€</span> <input
+								<span class="input-group-addon">&euro;</span> <input
 									th:value="${dataTransfer.product.ourPrice}" type="number"
 									step="0.01" name="product.ourPrice" class="form-control" min="0"
 									id="ourPrice" placeholder="Our Price" />
@@ -208,7 +226,7 @@
 								class="form-control" id="description"
 								th:value="${dataTransfer.product.description}"
 								th:text="${dataTransfer.product.description}"
-								placeholder="Description" />
+								placeholder="Description"></textarea>
 							<span class="help-block">Descrizione prodotto</span>
 						</div>
 					</div>

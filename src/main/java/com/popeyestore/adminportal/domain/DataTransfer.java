@@ -46,5 +46,4 @@ public class DataTransfer {
 		this.productAttributes = productAttributes;
 	}
 
-	
 }

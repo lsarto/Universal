@@ -1,15 +1,10 @@
 package com.popeyestore.domain;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 
-import javax.imageio.ImageIO;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,6 +40,9 @@ public class Product {
 	
 	@OneToMany(mappedBy="product", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<ProductAttribute> productAttributes;
+	
+	@OneToMany(mappedBy="product", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<ProductToCategory> productToCategoryList;
 	
 	@ManyToOne
 	@JsonIgnore
@@ -303,6 +301,14 @@ public class Product {
 	
 	public String encodeLatestImage() throws IOException{
 		return Base64.encodeBase64String(binaryLatestImage);
+	}
+
+	public List<ProductToCategory> getProductToCategoryList() {
+		return productToCategoryList;
+	}
+
+	public void setProductToCategoryList(List<ProductToCategory> productToCategoryList) {
+		this.productToCategoryList = productToCategoryList;
 	}
 	
 }

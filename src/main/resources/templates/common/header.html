@@ -165,11 +165,16 @@ ________________________________________________________ -->
 									<li>
 										<div class="yamm-content">
 											<div class="row">
-												<div th:each="category: ${type.categories}" class="col-sm-3">
+												<div th:each="category: ${type.categories}" 
+													th:if="${category.ownerCategory==null}" class="col-sm-3">
 													<h5>
 														<a th:href="@{/searchByCategory(category=${category.id})}"
 															th:text="${category.name}" class="content-main"></a>
 													</h5>
+													<ul th:each="subcategory: ${category.categories}">
+														<li><a th:href="@{/searchBySubcategory(subcategory=${subcategory.id})}"
+															th:text="${subcategory.name}"></a></li>
+													</ul>
 													<!-- <ul>
 														<li><a href="index.html">Option 1: Default Page</a></li>
 														<li><a href="index2.html">Option 2: Application</a></li>

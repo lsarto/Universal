@@ -1,15 +1,9 @@
 package com.popeyestore.adminportal.controller;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,7 +34,9 @@ import com.popeyestore.adminportal.utility.ImageUtility;
 import com.popeyestore.domain.Category;
 import com.popeyestore.domain.Product;
 import com.popeyestore.domain.ProductAttribute;
+import com.popeyestore.domain.ProductToCategory;
 import com.popeyestore.domain.Type;
+import com.popeyestore.service.ProductToCategoryService;
 
 @Controller
 @RequestMapping("/adminportal/product")
@@ -57,6 +53,8 @@ public class ProductController {
 	private AdminTypeService typeService;
 	@Autowired
 	private AdminAttributeService attributeService;
+	@Autowired
+	private ProductToCategoryService productToCategoryService;
 
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -73,7 +71,16 @@ public class ProductController {
 		product.setCategory(category);
 		
 		List<Category> categories = categoryService.findByType(typeService.findByName(typeName));
-		DataTransfer dt = new DataTransfer(product, categories, attributeList);
+		List<Category> categoryList = new ArrayList<>();
+		
+		for(Category c: categories){
+			Category owner = c.getOwnerCategory();
+			
+			if(owner==null){
+				categoryList.add(c);
+			}
+		}
+		DataTransfer dt = new DataTransfer(product, categoryList, attributeList);
 		model.addAttribute("dataTransfer", dt);
 		model.addAttribute("categories", categories);
 		
@@ -85,6 +92,7 @@ public class ProductController {
 	public String addProductPost(@ModelAttribute("dataTransfer") DataTransfer dataTransfer, HttpServletRequest request) {
 		Product product = dataTransfer.getProduct();
 		List<ProductAttribute> attributeList = product.getProductAttributes();
+		List<ProductToCategory> productToCategoryList = product.getProductToCategoryList();
 		
 		//save category
 		String categoryName = product.getCategory().getName();
@@ -92,7 +100,6 @@ public class ProductController {
 		category.setQty(category.getQty()+1);
 		categoryService.save(category);
 		product.setCategory(category);
-		
 		
 		//save type
 		String typeName = product.getType().getName();
@@ -102,6 +109,7 @@ public class ProductController {
 		
 		//save product
 		product.setProductAttributes(null);
+		product.setProductToCategoryList(null);
 		if(product.getOurPrice()==0.0){
 			product.setOurPrice(product.getListPrice());
 		}
@@ -163,8 +171,23 @@ public class ProductController {
 			e.printStackTrace();
 		}
 		
-		productService.save(product);
+		product = productService.save(product);
 		
+		//save subcategory
+		if(productToCategoryList!=null && productToCategoryList.size()==1){
+			//stiamo supponendo che la sottocategoria per un prodotto sia al più una
+			String subcategoryName = productToCategoryList.get(0).getCategory().getName();
+			Category subcategory = categoryService.findByName(subcategoryName);
+			if(subcategory!=null) {
+				subcategory.setQty(subcategory.getQty()+1);
+				subcategory = categoryService.save(subcategory);
+				ProductToCategory productToCategory = productToCategoryList.get(0);
+				productToCategory.setCategory(subcategory);
+				productToCategory.setProduct(product);
+				productToCategory = productToCategoryService.save(productToCategory);
+			}
+		}
+				
 		//save attributes
 		if(attributeList!=null && !attributeList.isEmpty()){
 			for(int i=0; i<attributeList.size(); i++){
@@ -230,9 +253,18 @@ public class ProductController {
 		Product product = productService.findOne(id);
 		LOG.debug("product.getType(): "+product.getType().getName());
 		LOG.debug("product.getCategory(): "+product.getCategory());
-		List<Category> categories = categoryService.findByType(product.getType());
-		LOG.debug("categories: " + categories);
-		DataTransfer dt = new DataTransfer(product, categories, product.getProductAttributes());
+		List<Category> categories = categoryService.findByType(typeService.findByName(product.getType().getName()));
+		List<Category> categoryList = new ArrayList<>();
+		
+		for(Category c: categories){
+			Category owner = c.getOwnerCategory();
+			
+			if(owner==null){
+				categoryList.add(c);
+			}
+		}
+		LOG.debug("categoryList: " + categoryList);
+		DataTransfer dt = new DataTransfer(product, categoryList, product.getProductAttributes());
 		model.addAttribute("dataTransfer", dt);
 		
 		return "updateProduct";
@@ -244,6 +276,7 @@ public class ProductController {
 		Product product = dataTransfer.getProduct();
 		Product productInRepository = productService.findOne(product.getId());
 		List<ProductAttribute> attributeList = product.getProductAttributes();
+		List<ProductToCategory> productToCategoryList = product.getProductToCategoryList();
 				
 		//save old images
 		product.setBinaryLatestImage(productInRepository.getBinaryLatestImage());
@@ -365,7 +398,44 @@ public class ProductController {
 		
 		//save product
 		product.setProductAttributes(null);
-		productService.save(product);
+		product.setProductToCategoryList(null);
+		product = productService.save(product);
+		
+		//save subcategory
+		if(productToCategoryList!=null && productToCategoryList.size()==1){
+			//stiamo supponendo che la sottocategoria per un prodotto sia al più una
+			String subcategoryName = productToCategoryList.get(0).getCategory().getName();
+			Category subcategory = categoryService.findByName(subcategoryName);
+			List<ProductToCategory> oldProductToCategoryList = productToCategoryService.findByProduct(product);
+			if(oldProductToCategoryList!=null && oldProductToCategoryList.size()==1){
+				Category oldCategory = oldProductToCategoryList.get(0).getCategory();
+				if(subcategory==null || oldCategory.getId()!=subcategory.getId()){
+					oldCategory.setQty(oldCategory.getQty()-1);
+					if(subcategory!=null){ 
+						// se subcategory!=null questo significa che oldCategory.getId()!=subcategory.getId(),
+						// ovvero che è stata cambiata la categoria, dunque la quantità dei prodotti deve essere incrementata
+						subcategory.setQty(subcategory.getQty()+1);
+						subcategory = categoryService.save(subcategory);
+					}
+					categoryService.save(oldCategory);
+					productToCategoryService.removeOne(oldProductToCategoryList.get(0).getId());
+				} 
+			} else if(subcategory!=null){
+				subcategory.setQty(subcategory.getQty()+1);
+				subcategory = categoryService.save(subcategory);
+			}
+			if(subcategory!=null) {
+				ProductToCategory productToCategory=null;
+				if(oldProductToCategoryList!=null && oldProductToCategoryList.size()==1){
+					productToCategory = oldProductToCategoryList.get(0);
+				} else {
+					productToCategory = new ProductToCategory();
+				}
+				productToCategory.setCategory(subcategory);
+				productToCategory.setProduct(product);
+				productToCategory = productToCategoryService.save(productToCategory);
+			}
+		}
 		
 		//save attributes
 		if(attributeList!=null && !attributeList.isEmpty()){

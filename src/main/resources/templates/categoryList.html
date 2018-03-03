@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+<head th:replace="common/header-admin :: common-header-admin" />
+
+<body>
+	<div th:replace="common/header-admin :: navbar-admin"></div>
+
+	<div class="container">
+		<div class="table-responsive">
+			<table id="productListTable"
+				class="table table-bordered table-hover table-striped">
+				<thead>
+					<tr>
+						<th><input id="selectAllCategory" type="checkbox" /></th>
+						<th>Nome</th>
+						<th>Tipo</th>
+						<th>Quantit&agrave;</th>
+						<th>Operazione</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr data-th-each="category : ${categoryList}">
+						<td><input hidden="hidden" name="id"
+							th:value="${category.id}" /> <input
+							th:id="'selected'+${category.id}" class="checkboxCategory"
+							type="checkbox" /></td>
+						<td><a
+							th:href="@{/adminportal/category/updateCategory(id=${category.id})}"><span
+								th:text="${category.name}"></span></a></td>
+						<td th:text="${category.type.name}"></td>
+						<td th:text="${category.qty}"></td>
+						<td><input hidden="hidden" name="id"
+							th:value="${category.id}" />
+							<button th:id="'oneCategory-'+${category.id}"
+								class="btn btn-danger btn-xs delete-category" type="button"
+								value="delete">
+								<span class="fa fa-times"></span>Delete
+							</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<button th:id="deleteCategorySelected" class="btn btn-danger ">Delete
+			Selected</button>
+	</div>
+
+
+	<div th:replace="common/header-admin :: admin-body-bottom-scripts"></div>
+
+	<script>
+		$(document).ready(
+				function() {
+					$("#productListTable").DataTable(
+							{
+								"lengthMenu" : [ [ 5, 10, 15, 20, -1 ],
+										[ 5, 10, 15, 20, "All" ] ],
+								"ordering" : true,
+								stateSave : true
+							});
+				});
+	</script>
+
+</body>
+</html>

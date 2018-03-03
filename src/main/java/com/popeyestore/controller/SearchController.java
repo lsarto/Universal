@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.popeyestore.domain.Product;
+import com.popeyestore.domain.ProductToCategory;
 import com.popeyestore.domain.Type;
 import com.popeyestore.adminportal.utility.Brand;
 import com.popeyestore.adminportal.utility.SearchPrice;
 import com.popeyestore.domain.Category;
 import com.popeyestore.domain.User;
 import com.popeyestore.service.ProductService;
+import com.popeyestore.service.ProductToCategoryService;
 import com.popeyestore.service.TypeService;
 import com.popeyestore.service.CategoryService;
 import com.popeyestore.service.UserService;
@@ -38,6 +40,9 @@ public class SearchController {
 
 	@Autowired
 	private TypeService typeService;
+	
+	@Autowired
+	private ProductToCategoryService productToCategoryService;
 
 	@RequestMapping("/searchByCategory")
 	public String searchByCategory(@RequestParam("category") String idCategory, Model model, Principal principal) {
@@ -93,6 +98,49 @@ public class SearchController {
 		model.addAttribute("productList", productList);
 		if (categoryFound != null) {
 			Type typeFound = categoryFound.getType();
+			model.addAttribute("typeFound", typeFound.getId());
+		}
+
+		return "shop-category";
+	}
+	
+	@RequestMapping("/searchBySubcategory")
+	public String searchBySubcategory(@RequestParam("subcategory") String idSubcategory, Model model, Principal principal) {
+		if (principal != null) {
+			String username = principal.getName();
+			User user = userService.findByUsername(username);
+			model.addAttribute("user", user);
+		}
+		
+		List<Product> productList = new ArrayList<>();
+		Category subcategoryFound = null;
+		List<ProductToCategory> productToCategoryList = null; 
+		
+		subcategoryFound = categoryService.findOne(Long.decode(idSubcategory.replace("-subcategory", "")));
+		productToCategoryList = productToCategoryService.findByCategory(subcategoryFound);
+		for(ProductToCategory productToCategory: productToCategoryList){
+			productList.add(productToCategory.getProduct());
+		}
+		
+		if (productList == null || productList.isEmpty()) {
+			model.addAttribute("emptyList", true);
+			return "shop-category";
+		} else {
+			for (int i = 0; i < productList.size(); i++) {
+				Product product = productList.get(i);
+				if (!product.isActive()) {
+					productList.remove(product);
+				}
+			}
+			if (productList.isEmpty()) {
+				model.addAttribute("emptyList", true);
+				return "shop-category";
+			}
+		}
+
+		model.addAttribute("productList", productList);
+		if (subcategoryFound != null) {
+			Type typeFound = subcategoryFound.getType();
 			model.addAttribute("typeFound", typeFound.getId());
 		}
 

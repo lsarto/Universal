@@ -16,7 +16,7 @@ public interface AdminCategoryService {
 
 	Category createCategory(Category category);
 	
-	List<Category> findByType(Type type);
+	List<Category> findByType(Type categoryName);
 	
 	Category save(Category category);
 

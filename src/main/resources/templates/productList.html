@@ -15,12 +15,11 @@
 						<th>Nome</th>
 						<th>Tipo</th>
 						<th>Categoria</th>
+						<th>Sotto-Categoria</th>
 						<th>Peso Spedizione</th>
-						<th>Prezzo Lista</th>
+						<th>Prezzo Listino</th>
 						<th>Nostro Prezzo</th>
 						<th>SKU</th>
-						<th>Sale</th>
-						<th>New</th>
 						<th>Attivo</th>
 						<th>Operazione</th>
 					</tr>
@@ -36,12 +35,11 @@
 								th:text="${product.name}"></span></a></td>
 						<td th:text="${product.type.name}"></td>
 						<td th:text="${product.category.name}"></td>
+						<td th:text="${#lists.size(product.productToCategoryList)}? ${product.productToCategoryList[0].category.name} : ''"></td>
 						<td th:text="${product.shippingWeight}"></td>
 						<td th:text="${product.listPrice}"></td>
 						<td th:text="${product.OurPrice}"></td>
 						<td th:text="${product.inStockNumber}"></td>
-						<td th:text="${product.sale}"></td>
-						<td th:text="${product.newProduct}"></td>
 						<td th:text="${product.active}"></td>
 						<td><input hidden="hidden" name="id"
 							th:value="${product.id}" />
@@ -68,7 +66,7 @@
 							{
 								"lengthMenu" : [ [ 5, 10, 15, 20, -1 ],
 										[ 5, 10, 15, 20, "All" ] ],
-								"ordering" : false,
+								"ordering" : true,
 								stateSave : true
 							});
 				});

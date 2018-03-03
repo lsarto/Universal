@@ -105,6 +105,7 @@ public class HomeController {
 	public void init(){
 		List<Type> types = typeService.findAll();
 		List<Category> categories = categoryService.findAll();
+	
 		session.setAttribute("categories", categories);
 		session.setAttribute("types", types);
 	}

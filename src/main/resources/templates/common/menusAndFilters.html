@@ -56,7 +56,7 @@
 							th:id="'collapse'+${type.id}">
 							<li th:classappend="${activeAll}? 'active btn-default'"><a
 								th:href="@{/searchByCategory(category='all'+${type.id})}">All</a></li>
-							<li th:each="category: ${type.categories}"
+							<li th:each="category: ${type.categories}" th:if="${category.ownerCategory==null}"
 								th:classappend="(${activeCategory}==${category.id})? 'active btn-default'">
 								<a th:href="@{/searchByCategory(category=${category.id})}"
 								th:inline="text">[[${category.name}]] <span

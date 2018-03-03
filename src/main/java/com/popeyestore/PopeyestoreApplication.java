@@ -116,12 +116,12 @@ public class PopeyestoreApplication implements CommandLineRunner {
 		Type type = new Type();
 		type.setName(typeName);
 		type.setProducts(new ArrayList<Product>());
-		typeService.createType(type);
+		Type localType = typeService.createType(type);
 
 		for (String categoryName : categoriesName) {
 			Category category = new Category();
 			category.setName(categoryName);
-			categoryService.createCategory(category, type);
+			categoryService.createCategory(category, localType);
 		}
 	}
 }
